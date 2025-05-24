@@ -8,6 +8,7 @@ const {
   CreateBooks,
   CreateGenres,
   CreatePublishers,
+  ListBookById,
 } = require("../controllers/books");
 
 router.get("/books/add", isAuthenticated, async (req, res) => {
@@ -42,7 +43,13 @@ router.post("/books/publishers/add", async (req, res) => {
   }
 });
 
-router.get("/books/edit/:id", isAuthenticated, async (req, res) => {});
+router.get("/books/edit/:id", isAuthenticated, async (req, res) => {
+  try {
+    ListBookById(req, res);
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 router.put("/books/edit-book/:id", isAuthenticated, async (req, res) => {
   const { Name, Author, Genre, Cover, Publisher, Summary } = req.body;

@@ -172,8 +172,22 @@ const CreatePublishers = async (req, res) => {
 };
 
 const ListBookById = async (req, res) => {
-  try {
-  } catch (error) {}
+  const book = await Books.findById(req.params.id).lean();
+  const Genre = await GenreDB.findOne({ NameGenre: book.Genre }).lean();
+  const Publisher = await PublisherDB.findOne({
+    NamePublisher: book.Publisher,
+  }).lean();
+  const Genres = await GenreDB.find().lean().sort({ Genre: "ascending" });
+  const Publishers = await PublisherDB.find()
+    .lean()
+    .sort({ Publisher: "ascending" });
+  res.render("books/edit_books", {
+    book,
+    Genres,
+    Publishers,
+    Genre,
+    Publisher,
+  });
 };
 
 module.exports = {
@@ -181,4 +195,5 @@ module.exports = {
   CreateBooks,
   CreateGenres,
   CreatePublishers,
+  ListBookById,
 };
