@@ -1,72 +1,74 @@
 const GenreDB = require("../models/Genre");
 const PublisherDB = require("../models/Publisher");
+const AuthorsDB = require("../models/Authors");
 const Books = require("../models/Book");
 const { verifyImageURL } = require("verify-image-url");
 
-const ListGenresPublishers = async (res) => {
+const ListDependenciesBooks = async (res) => {
   const Genres = await GenreDB.find().lean().sort({ Genre: "ascending" });
   const Publishers = await PublisherDB.find()
     .lean()
     .sort({ Publisher: "ascending" });
-  res.render("books/create_books", { Genres, Publishers });
+  const Authors = await AuthorsDB.find()
+    .lean()
+    .sort({ NameAutor: "ascending" });
+  res.render("books/create_books", { Genres, Publishers, Authors });
 };
 
 const CreateBooks = async (req, res) => {
-  const {
-    NameGenre,
-    Description,
-    NamePublisher,
-    Adress,
-    Celphone,
-    Name,
-    Author,
-    Genre,
-    Cover,
-    Publisher,
-    Summary,
-  } = req.body;
-  const Book = await Books.findOne({ Name: Name }).lean();
-  const Img = await verifyImageURL(Cover);
+  // Extraer todos los campos del formulario a la vez
   const errors = [];
-  if (Book) {
-    errors.push({ text: "Libro ya existente" });
+  const savedValues = ({ Name, Author, Genre, Cover, Publisher, Summary } =
+    req.body);
+
+  const requiredFields = [
+    "Name",
+    "Author",
+    "Genre",
+    "Cover",
+    "Publisher",
+    "Summary",
+  ];
+  for (const field of requiredFields) {
+    if (!req.body[field] || req.body[field].trim() === "") {
+      errors.push({ text: "Datos incompletos para la creación del Libro" });
+      break;
+    }
   }
-  if (Img.isImage == false) {
-    errors.push({ text: "URL de portada no valida" });
+
+  if (errors.length === 0) {
+    // Verificar si el libro ya existe
+    const existingBook = await Books.findOne({ Name: Name }).lean();
+    if (existingBook) {
+      errors.push({ text: "Libro ya existente" });
+    }
+
+    if (Cover) {
+      const Img = await verifyImageURL(Cover);
+      if (!Img.isImage) {
+        errors.push({ text: "URL de portada no válida" });
+      }
+    }
   }
 
   if (errors.length > 0) {
-    const Genres = await GenreDB.find().lean().sort({ NameGenre: "ascending" });
-    const Publishers = await PublisherDB.find()
-      .lean()
-      .sort({ Publisher: "ascending" });
+    const [Genres, Publishers, Authors] = await Promise.all([
+      GenreDB.find().lean().sort({ NameGenre: "ascending" }),
+      PublisherDB.find().lean().sort({ Publisher: "ascending" }),
+      AuthorsDB.find().lean().sort({ NameAutor: "ascending" }),
+    ]);
+
     res.render("books/create_books", {
       errors,
       Genres,
-      NameGenre,
-      Description,
       Publishers,
-      NamePublisher,
-      Adress,
-      Celphone,
-      Name,
-      Author,
-      Genre,
-      Cover,
-      Publisher,
-      Summary,
+      Authors,
+      ...savedValues,
     });
   } else {
-    const newBook = new Books({
-      Name,
-      Author,
-      Genre,
-      Cover,
-      Publisher,
-      Summary,
-    });
+    const newBook = new Books(savedValues);
     await newBook.save();
-    req.flash("success_msg", "El nuevo libro se registro exitosamente");
+    req.flash("success_msg", "El nuevo libro se registró exitosamente");
     res.redirect("/books/add");
   }
 };
@@ -174,6 +176,7 @@ const CreatePublishers = async (req, res) => {
 const ListBookById = async (req, res) => {
   const book = await Books.findById(req.params.id).lean();
   const Genre = await GenreDB.findOne({ NameGenre: book.Genre }).lean();
+  const Author = await AuthorsDB.findOne({ NameAutor: book.Author }).lean();
   const Publisher = await PublisherDB.findOne({
     NamePublisher: book.Publisher,
   }).lean();
@@ -181,12 +184,18 @@ const ListBookById = async (req, res) => {
   const Publishers = await PublisherDB.find()
     .lean()
     .sort({ Publisher: "ascending" });
+  const Authors = await AuthorsDB.find()
+    .lean()
+    .sort({ NameAutor: "ascending" });
+
   res.render("books/edit_books", {
     book,
     Genres,
     Publishers,
+    Authors,
     Genre,
     Publisher,
+    Author,
   });
 };
 
@@ -252,7 +261,7 @@ const GetSingleBook = async (req, res) => {
 };
 
 module.exports = {
-  ListGenresPublishers,
+  ListDependenciesBooks,
   CreateBooks,
   CreateGenres,
   CreatePublishers,
