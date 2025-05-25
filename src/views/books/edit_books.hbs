@@ -1,125 +1,276 @@
 <div class="container py-1 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100 mb-4">
-      <div class="col-lg-8 col-xl-6">
-        <div class="card text-white bg-dark">
-          <div class="card-body p-4 p-md-5">
-            <h3 class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2">Editar Género literio</h3>
-
-            <form action="/books/edit-genre/{{Genre._id}}?_method=put" method="post" class="px-md-2">
-
-              <div class="form-outline mb-4">
-                <input type="text" class="form-control form-control-lg" name="NameGenre" id="NameGenre" autofocus value="{{Genre.NameGenre}}"/>
-                <label class="form-label" for="form3Example1q">Nombre</label>
-              </div>
-
-              <div class="form-outline">
-                    <textarea class="form-control form-control-lg" name="Description" id="Description" rows="2">{{Genre.Description}}</textarea>
-                    <label class="form-label" for="form3Example1w">Descripción</label>
-              </div>
-                <p></p>
-              <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto ">Editar y Guardar</button>
-
-            </form>
-
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-8 col-xl-6">
-        <div class="card text-white bg-dark">
-          <div class="card-body p-4 p-md-5">
-            <h3 class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2">Editar editorial</h3>
-
-            <form action="/books/edit-publisher/{{Publisher._id}}?_method=put" method="post" class="px-md-2">
-
-              <div class="form-outline mb-4">
-                <input type="text" class="form-control form-control-lg" name="NamePublisher" id="NamePublisher" value="{{Publisher.NamePublisher}}" autofocus/>
-                <label class="form-label" for="form3Example1q">Nombre</label>
-              </div>
-
-              <div class="form-outline mb-4">
-                    <input type="text" class="form-control form-control-lg" name="Adress" id="Adress" value="{{Publisher.Adress}}" autofocus/>
-                    <label class="form-label" for="form3Example1w">Dirección</label>
-              </div>
-
-              <div class="form-outline mb-4">
-                    <input type="number" min="3" step="1" oninput="validity.valid||(value='');" name="Celphone" class="form-control form-control-lg"  value="{{Publisher.Celphone}}">
-                    <label class="form-label" for="form3Example1w">Número de contacto</label>
-                </div>
-                <p></p>
-              <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto ">Editar y Guardar</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p></p>
-    <div class="row d-flex justify-content-center  align-items-center h-80">
+  <div class="row d-flex justify-content-center align-items-center h-100 mb-4">
+    <div class="col-lg-8 col-xl-6">
       <div class="card text-white bg-dark">
         <div class="card-body p-4 p-md-5">
-          <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Editar libro</h3>
-          <form action="/books/edit-book/{{book._id}}?_method=put" method="post" class="px-md-2">
-            <div class="row g-2">
-                <div class="col-md">
-                    <img src="{{book.Cover}}" class="img-fluid mb-4" alt="..." style="width: 250px; height: 250px">
-                    <p></p>
-                </div>
-                <div class="col-md">
-                   <div class="form-outline mb-4">
-                    <input type="text" class="form-control form-control-lg" name="Cover" id="Cover" value="{{book.Cover}}" />
-                    <label class="form-label" for="form3Example1q">URL de la imagen que actuara como portada</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-2">
-                <div class="col-md">
-                <div class="form-outline mb-4">
-                  <input type="text" class="form-control form-control-lg" name="Name" id="Name" value="{{book.Name}}" />
-                  <label class="form-label" for="form3Example1q">Nombre</label>
-                </div>
-              </div>
-              <div class="col-md">
-                <div class="form-outline mb-4">
-                  <input type="text" class="form-control form-control-lg" name="Author" id="Author" value="{{book.Author}}" />
-                  <label class="form-label" for="form3Example1q">Autor(a)</label>
-                </div>
-              </div>
-            </div>
-            <div class="row g-2">
-              <div class="col-md">
-                <div class="form-group mb-4">
-                  <select class="form-select" name="Genre" id="Genre">
-                          <option value="{{book.Genre}}" selected>{{book.Genre}}</option>
-                          {{#each Genres}}
-                          <option value="{{NameGenre}}">{{NameGenre}}</option>
-                          {{else}}
-                          <option value="">No hay géneros literarios registrados</option>
-                          {{/each}}
-                  </select>
-                  <label class="form-label" for="form3Example1q">Género literario</label>
-                </div>
-              </div>
-              <div class="col-md">
-                <div class="form-group mb-4">
-                  <select class="form-control"  name="Publisher" id="Publisher">
-                          <option value="{{book.Publisher}}" selected>{{book.Publisher}}</option>
-                          {{#each Publishers}}
-                          <option value="{{NamePublisher}}">{{NamePublisher}}</option>
-                          {{else}}
-                          <option value="">No hay editoriales registradas</option>
-                          {{/each}}
-                  </select>
-                  <label class="form-label" for="form3Example1q">Editorial</label>
-                </div>
-              </div>
-            </div>
+          <h3 class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2">Editar Género literio</h3>
+
+          <form
+            action="/books/edit-genre/{{Genre._id}}?_method=put"
+            method="post"
+            class="px-md-2"
+          >
+
             <div class="form-outline mb-4">
-                  <textarea class="form-control form-control-lg" name="Summary" id="Summary" rows="2">{{book.Summary}}</textarea>
-                  <label class="form-label" for="form3Example1w">Sinopsis</label>
-            </div>   
-            <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto ">Editar y Guardar</button>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                name="NameGenre"
+                id="NameGenre"
+                autofocus
+                value="{{Genre.NameGenre}}"
+              />
+              <label class="form-label" for="form3Example1q">Nombre</label>
+            </div>
+
+            <div class="form-outline">
+              <textarea
+                class="form-control form-control-lg"
+                name="Description"
+                id="Description"
+                rows="2"
+              >{{Genre.Description}}</textarea>
+              <label class="form-label" for="form3Example1w">Descripción</label>
+            </div>
+            <p></p>
+            <button
+              type="submit"
+              class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto"
+            >Editar y Guardar</button>
+
           </form>
 
         </div>
       </div>
     </div>
+    <div class="col-lg-8 col-xl-6">
+      <div class="card text-white bg-dark">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2">Editar editorial</h3>
+
+          <form
+            action="/books/edit-publisher/{{Publisher._id}}?_method=put"
+            method="post"
+            class="px-md-2"
+          >
+
+            <div class="form-outline mb-4">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                name="NamePublisher"
+                id="NamePublisher"
+                value="{{Publisher.NamePublisher}}"
+                autofocus
+              />
+              <label class="form-label" for="form3Example1q">Nombre</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                name="Adress"
+                id="Adress"
+                value="{{Publisher.Adress}}"
+                autofocus
+              />
+              <label class="form-label" for="form3Example1w">Dirección</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input
+                type="number"
+                min="3"
+                step="1"
+                oninput="validity.valid||(value='');"
+                name="Celphone"
+                class="form-control form-control-lg"
+                value="{{Publisher.Celphone}}"
+              />
+              <label class="form-label" for="form3Example1w">Número de contacto</label>
+            </div>
+            <p></p>
+            <button
+              type="submit"
+              class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto"
+            >Editar y Guardar</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
+  <p></p>
+  <div class="row d-flex justify-content-center align-items-center h-80">
+    <div class="card text-white bg-dark">
+      <div class="card-body p-4 p-md-5">
+        <h3 class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2">Editar autor</h3>
+
+        <form
+          action="/authors/edit/{{Author._id}}?_method=put"
+          method="post"
+          class="px-md-2"
+        >
+
+          <div class="form-outline mb-4">
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              name="NameAutor"
+              id="NameAutor"
+              value="{{Author.NameAutor}}"
+            />
+            <label class="form-label" for="form3Example1q">Nombre</label>
+          </div>
+
+          <div class="form-outline mb-4">
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              name="LastNameAutor"
+              id="LastNameAutor"
+              value="{{Author.LastNameAutor}}"
+            />
+            <label class="form-label" for="form3Example1w">Apellido</label>
+          </div>
+
+          <div class="form-outline mb-4">
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              name="EmailAutor"
+              id="EmailAutor"
+              value="{{Author.EmailAutor}}"
+            />
+            <label class="form-label" for="form3Example1w">Correo</label>
+          </div>
+          <p></p>
+          <button
+            type="submit"
+            class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto"
+          >Editar y Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <p></p>
+  <div class="row d-flex justify-content-center align-items-center h-80">
+    <div class="card text-white bg-dark">
+      <div class="card-body p-4 p-md-5">
+        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Editar libro</h3>
+        <form
+          action="/books/edit-book/{{book._id}}?_method=put"
+          method="post"
+          class="px-md-2"
+        >
+          <div class="row g-2">
+            <div class="col-md">
+              <img
+                src="{{book.Cover}}"
+                class="img-fluid mb-4"
+                alt="..."
+                style="width: 250px; height: 250px"
+              />
+              <p></p>
+            </div>
+            <div class="col-md">
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  name="Cover"
+                  id="Cover"
+                  value="{{book.Cover}}"
+                />
+                <label class="form-label" for="form3Example1q">URL de la imagen
+                  que actuara como portada</label>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  name="Name"
+                  id="Name"
+                  value="{{book.Name}}"
+                />
+                <label class="form-label" for="form3Example1q">Nombre</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-outline mb-4">
+                <select
+                  class="form-select"
+                  name="Author"
+                  id="Author"
+                  style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                >
+                  {{#each Authors}}
+                    <option value="{{NameAutor}}">{{NameAutor}}</option>
+                  {{else}}
+                    <option value="">No hay autores registrados</option>
+                  {{/each}}
+                </select>
+                <label
+                  class="form-label"
+                  style="color: #94D2BD;"
+                >Autor(a)</label>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-group mb-4">
+                <select class="form-select" name="Genre" id="Genre">
+                  <option
+                    value="{{book.Genre}}"
+                    selected
+                  >{{book.Genre}}</option>
+                  {{#each Genres}}
+                    <option value="{{NameGenre}}">{{NameGenre}}</option>
+                  {{else}}
+                    <option value="">No hay géneros literarios registrados</option>
+                  {{/each}}
+                </select>
+                <label class="form-label" for="form3Example1q">Género literario</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-group mb-4">
+                <select class="form-control" name="Publisher" id="Publisher">
+                  <option
+                    value="{{book.Publisher}}"
+                    selected
+                  >{{book.Publisher}}</option>
+                  {{#each Publishers}}
+                    <option value="{{NamePublisher}}">{{NamePublisher}}</option>
+                  {{else}}
+                    <option value="">No hay editoriales registradas</option>
+                  {{/each}}
+                </select>
+                <label class="form-label" for="form3Example1q">Editorial</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-outline mb-4">
+            <textarea
+              class="form-control form-control-lg"
+              name="Summary"
+              id="Summary"
+              rows="2"
+            >{{book.Summary}}</textarea>
+            <label class="form-label" for="form3Example1w">Sinopsis</label>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto"
+          >Editar y Guardar</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

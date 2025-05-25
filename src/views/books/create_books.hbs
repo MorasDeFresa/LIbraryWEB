@@ -18,7 +18,6 @@
                 class="form-control form-control-lg"
                 name="NameGenre"
                 id="NameGenre"
-                autofocus
                 value="{{NameGenre}}"
                 style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
               />
@@ -118,8 +117,71 @@
     </div>
   </div>
 
-  <p></p>
+  <br />
+  <div class="row d-flex justify-content-center align-items-center h-80">
+    <div
+      class="card text-white"
+      style="border-radius: 20px; background-color: #001219; color: #E0FBFC; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+    >
+    <div class="card-body p-4 p-md-5">
+          <h3
+            class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2"
+            style="color: #94D2BD;"
+          >Nuevo Autor(a)</h3>
 
+          <form action="/authors/add" method="post" class="px-md-2">
+            <div class="form-outline mb-4">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                name="NameAutor"
+                id="NameAutor"
+                value="{{NameAutor}}"
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+              />
+              <label class="form-label" style="color: #94D2BD;">Nombre</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                name="LastNameAutor"
+                id="LastNameAutor"
+                value="{{LastNameAutor}}"
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+              />
+              <label
+                class="form-label"
+                style="color: #94D2BD;"
+              >Apellido</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                name="EmailAutor"
+                id="EmailAutor"
+                value="{{EmailAutor}}"
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+              />
+              <label
+                class="form-label"
+                style="color: #94D2BD;"
+              >Correo de contacto</label>
+            </div>
+
+            <p></p>
+            <button
+              type="submit"
+              class="btn btn-lg"
+              style="background-color: #0A9396; color: #FFFFFF; border-radius: 30px; width: 100%;"
+            >Registrar</button>
+          </form>
+    </div>
+  </div>
+ <p></p>
   <div class="row d-flex justify-content-center align-items-center h-80">
     <div
       class="card text-white"
@@ -148,14 +210,18 @@
             </div>
             <div class="col-md">
               <div class="form-outline mb-4">
-                <input
-                  type="text"
-                  class="form-control form-control-lg"
+                <select
+                  class="form-select"
                   name="Author"
                   id="Author"
-                  value="{{Author}}"
                   style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
-                />
+                >
+                  {{#each Authors}}
+                    <option value="{{NameAutor}}">{{NameAutor}}</option>
+                  {{else}}
+                    <option value="">No hay autores registrados</option>
+                  {{/each}}
+                </select>
                 <label
                   class="form-label"
                   style="color: #94D2BD;"
