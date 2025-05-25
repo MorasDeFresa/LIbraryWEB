@@ -1,57 +1,112 @@
 <div class="container h-40">
-    <div class="row d-flex justify-content-center align-items-center h-100" >
-      <div class="col-lg-12 col-xl-11">
-        <div class="card text-white bg-dark" style="border-radius: 25px;">
-          <div class="card-body p-md-5">
-            <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-lg-12 col-xl-11">
+      <div
+        class="card text-white"
+        style="border-radius: 25px; background-color: #001219; color: #E0FBFC; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+      >
+        <div class="card-body p-md-5">
+          <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Registrar Administrador</p>
+              <p
+                class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"
+                style="color: #94D2BD;"
+              >Registrar Administrador</p>
 
-                <form action="/users/signup" method="post" class="mx-1 mx-md-4">
+              <form action="/users/signup" method="post" class="mx-1 mx-md-4">
 
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw" style="color: rgba(193,242,255,255);"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <input type="text" class="form-control form-control-lg" name="Username" placeholder="Usuario"  value="{{Username}}" autofocus>
-                      <label class="form-label" for="form3Example1c">Usuario</label>
-                    </div>
+                <div class="d-flex flex-row align-items-center mb-4">
+                  <i
+                    class="fas fa-user fa-lg me-3 fa-fw"
+                    style="color: #94D2BD;"
+                  ></i>
+                  <div class="form-outline flex-fill mb-0">
+                    <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      name="Username"
+                      placeholder="Usuario"
+                      value="{{Username}}"
+                      autofocus
+                      style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                    />
+                    <label
+                      class="form-label"
+                      for="form3Example1c"
+                      style="color: #94D2BD;"
+                    >Usuario</label>
                   </div>
+                </div>
 
-
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-lock fa-lg me-3 fa-fw" style="color: rgba(193,242,255,255);"></i>
-                    <div class="form-outline flex-fill mb-0">
-                       <input type="password" class="form-control form-control-lg" name="Password" placeholder="Contraseña" value="{{Password}}">
-                      <label class="form-label" for="form3Example4c">Contraseña</label>
-                    </div>
+                <div class="d-flex flex-row align-items-center mb-4">
+                  <i
+                    class="fas fa-lock fa-lg me-3 fa-fw"
+                    style="color: #94D2BD;"
+                  ></i>
+                  <div class="form-outline flex-fill mb-0">
+                    <input
+                      type="password"
+                      class="form-control form-control-lg"
+                      name="Password"
+                      placeholder="Contraseña"
+                      value="{{Password}}"
+                      style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                    />
+                    <label
+                      class="form-label"
+                      for="form3Example4c"
+                      style="color: #94D2BD;"
+                    >Contraseña</label>
                   </div>
+                </div>
 
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-key fa-lg me-3 fa-fw" style="color: rgba(193,242,255,255);"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <input type="password" class="form-control form-control-lg" name="Confirm_Password" placeholder="Confirma tu contraseña" value="{{Confirm_Password}}">
-                      <label class="form-label" for="form3Example4cd">Confirma tu contraseña</label>
-                    </div>
+                <div class="d-flex flex-row align-items-center mb-4">
+                  <i
+                    class="fas fa-key fa-lg me-3 fa-fw"
+                    style="color: #94D2BD;"
+                  ></i>
+                  <div class="form-outline flex-fill mb-0">
+                    <input
+                      type="password"
+                      class="form-control form-control-lg"
+                      name="Confirm_Password"
+                      placeholder="Confirma tu contraseña"
+                      value="{{Confirm_Password}}"
+                      style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                    />
+                    <label
+                      class="form-label"
+                      for="form3Example4cd"
+                      style="color: #94D2BD;"
+                    >Confirma tu contraseña</label>
                   </div>
+                </div>
 
+                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                  <button
+                    type="submit"
+                    class="btn btn-lg"
+                    style="background-color: #0A9396; color: #FFFFFF; border-radius: 30px; width: 100%; transition: transform 0.3s;"
+                  >Registrar</button>
+                </div>
 
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg ">Registrar</button>
-                  </div>
+              </form>
 
-                </form>
-
-              </div>
-              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                <img src="https://media.discordapp.net/attachments/908798431064109098/1109128975332159530/2NQAFgU.png?width=684&height=385"
-                  class="img-fluid" alt="Sample image">
-
-              </div>
+            </div>
+            <div
+              class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2"
+            >
+              <img
+                src="https://media.discordapp.net/attachments/908798431064109098/1109128975332159530/2NQAFgU.png?width=684&height=385"
+                class="img-fluid rounded"
+                alt="Sample image"
+                style="border-radius: 20px;"
+              />
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

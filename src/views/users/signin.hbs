@@ -1,50 +1,90 @@
 <div class="container py-4 h-50">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-xl-10">
-        <div class="card text-white bg-dark">
-          <div class="row g-0">
-            <div class="col-lg-6">
-              <div class="card-body p-md-5 mx-md-4">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-xl-10">
+      <div
+        class="card"
+        style="background-color: #001219; color: #E0FBFC; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+      >
+        <div class="row g-0">
+          <!-- Login -->
+          <div class="col-lg-6">
+            <div class="card-body p-md-5 mx-md-4">
+              <div class="text-center">
+                <img
+                  class="img-fluid rounded-circle mb-4"
+                  src="/img/BuhoTeca.png"
+                  style="width: 15%;"
+                  alt="logo"
+                />
+                <h4 class="mt-1 mb-5 pb-1" style="color: #94D2BD;">BuhoTeca</h4>
+              </div>
 
-                <div class="text-center">
-                  <img class="img-fluid rounded-circle mb-4" src="https://media.discordapp.net/attachments/908798431064109098/1106227725141807176/image.png?width=412&height=385"
-                    style="width: 185px;" alt="logo">
-                  <h4 class="mt-1 mb-5 pb-1">The Cosmic Team</h4>
+              <form action="/users/signin" method="post">
+                <p>Ingresa con tu cuenta de administrador</p>
+
+                <div class="form-outline mb-4">
+                  <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    name="Username"
+                    style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                  />
+                  <label
+                    class="form-label"
+                    for="form2Example11"
+                    style="color: #94D2BD;"
+                  >Username</label>
                 </div>
 
-                <form action="/users/signin" method="post">
-                  <p>Ingresa con tu cuenta de administrador</p>
+                <div class="form-outline mb-4">
+                  <input
+                    type="password"
+                    class="form-control form-control-lg"
+                    name="Password"
+                    style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                  />
+                  <label
+                    class="form-label"
+                    for="form2Example22"
+                    style="color: #94D2BD;"
+                  >Password</label>
+                </div>
 
-                  <div class="form-outline mb-4">
-                    <input type="text" class="form-control form-control-lg" name="Username" autofocus>
-                    <label class="form-label" for="form2Example11">Username</label>
-                  </div>
-
-                  <div class="form-outline mb-4">
-                    <input type="password" class="form-control form-control-lg" name="Password">
-                    <label class="form-label" for="form2Example22">Password</label>
-                  </div>
-
-                  <div class="text-center pt-3 mb-5 pb-3">
-                    <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg ">
-                            Ingresar
-                        </button>
-                  </div>
-
-                </form>
-
-              </div>
-            </div>
-            <div class="col-lg-6 d-flex align-items-center" style="background-color: rgba(193,242,255,255);">
-              <div class="px-3 py-4 p-md-5 mx-auto">
-                <h1 class="mb-4" style="color:black;">¡Gracias!</h1>
-                <p class="medium mb-0" style="color:black;">Un agradecimiento especial a todas las personas que han colaborado en la administración de The Cosmic Library, su dedicación y esfuerzo han sido clave para hacer de esta plataforma un espacio de aprendizaje y conocimiento para todos.</p>
-                <img class="mb-4" src="https://media.discordapp.net/attachments/908798431064109098/1106578293685239908/image-removebg-preview.png"
-                    style="width: 400px;" alt="gracias">
-              </div>
+                <div class="text-center pt-3 mb-5 pb-3">
+                  <button
+                    type="submit"
+                    class="btn btn-lg"
+                    style="background-color: #0A9396; color: #FFFFFF; border-radius: 30px; width: 100%; transition: transform 0.3s;"
+                  >
+                    Ingresar
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
+
+          <!-- Gracias -->
+          <div
+            class="col-lg-6 d-flex align-items-center"
+            style="background-color: #94D2BD; color: #001219; border-top-right-radius: 20px; border-bottom-right-radius: 20px;"
+          >
+            <div class="px-3 py-4 p-md-5 mx-auto text-center">
+              <h1 class="mb-4" style="color: #001219;">¡Gracias!</h1>
+              <p class="medium mb-4">Un agradecimiento especial a todas las
+                personas que han colaborado en la administración de BuhoTeca y,
+                su dedicación y esfuerzo han sido clave para hacer de esta
+                plataforma un espacio de aprendizaje y conocimiento para todos.</p>
+              <img
+                class="mb-4"
+                src="/img/Logo_Universidad_de_Cundinamarca.png"
+                style="width: 300px;"
+                alt="gracias"
+              />
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
+</div>

@@ -1,116 +1,241 @@
 <div class="container py-1 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100 mb-4">
-      <div class="col-lg-8 col-xl-6">
-        <div class="card text-white bg-dark">
-          <div class="card-body p-4 p-md-5">
-            <h3 class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2">Nuevo género</h3>
+  <div class="row d-flex justify-content-center align-items-center h-100 mb-4">
+    <div class="col-lg-8 col-xl-6">
+      <div
+        class="card text-white"
+        style="border-radius: 20px; background-color: #001219; color: #E0FBFC; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+      >
+        <div class="card-body p-4 p-md-5">
+          <h3
+            class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2"
+            style="color: #94D2BD;"
+          >Nuevo género</h3>
 
-            <form action="/books/genres/add" method="post" class="px-md-2">
+          <form action="/books/genres/add" method="post" class="px-md-2">
+            <div class="form-outline mb-4">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                name="NameGenre"
+                id="NameGenre"
+                autofocus
+                value="{{NameGenre}}"
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+              />
+              <label class="form-label" style="color: #94D2BD;">Nombre</label>
+            </div>
 
-              <div class="form-outline mb-4">
-                <input type="text" class="form-control form-control-lg" name="NameGenre" id="NameGenre" autofocus value="{{NameGenre}}"/>
-                <label class="form-label" for="form3Example1q">Nombre</label>
-              </div>
+            <div class="form-outline">
+              <textarea
+                class="form-control form-control-lg"
+                name="Description"
+                id="Description"
+                rows="2"
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+              >{{Description}}</textarea>
+              <label
+                class="form-label"
+                style="color: #94D2BD;"
+              >Descripción</label>
+            </div>
 
-              <div class="form-outline">
-                    <textarea class="form-control form-control-lg" name="Description" id="Description" rows="2">{{Description}}</textarea>
-                    <label class="form-label" for="form3Example1w">Descripción</label>
-              </div>
-                <p></p>
-              <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto ">Registrar</button>
-
-            </form>
-
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-8 col-xl-6">
-        <div class="card text-white bg-dark">
-          <div class="card-body p-4 p-md-5">
-            <h3 class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2">Nueva editorial</h3>
-
-            <form action="/books/publishers/add" method="post" class="px-md-2">
-
-              <div class="form-outline mb-4">
-                <input type="text" class="form-control form-control-lg" name="NamePublisher" id="NamePublisher" value="{{NamePublisher}}" autofocus/>
-                <label class="form-label" for="form3Example1q">Nombre</label>
-              </div>
-
-              <div class="form-outline mb-4">
-                    <input type="text" class="form-control form-control-lg" name="Adress" id="Adress" value="{{Adress}}" autofocus/>
-                    <label class="form-label" for="form3Example1w">Dirección</label>
-              </div>
-
-              <div class="form-outline mb-4">
-                    <input type="number" min="3" step="1" oninput="validity.valid||(value='');" name="Celphone" class="form-control form-control-lg"  value="{{Celphone}}">
-                    <label class="form-label" for="form3Example1w">Número de contacto</label>
-                </div>
-                <p></p>
-              <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto ">Registrar</button>
-            </form>
-          </div>
+            <p></p>
+            <button
+              type="submit"
+              class="btn btn-lg"
+              style="background-color: #0A9396; color: #FFFFFF; border-radius: 30px; width: 100%;"
+            >Registrar</button>
+          </form>
         </div>
       </div>
     </div>
-    <p></p>
-    <div class="row d-flex justify-content-center  align-items-center h-80">
-      <div class="card text-white bg-dark">
-        <div class="card-body p-4 p-md-5">
-          <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Nuevo libro</h3>
-          <form action="/books/add" method="post" class="px-md-2">
-            <div class="row g-2">
-              <div class="col-md">
-                <div class="form-outline mb-4">
-                  <input type="text" class="form-control form-control-lg" name="Name" id="Name" value="{{Name}}" />
-                  <label class="form-label" for="form3Example1q">Nombre</label>
-                </div>
-              </div>
-              <div class="col-md">
-                <div class="form-outline mb-4">
-                  <input type="text" class="form-control form-control-lg" name="Author" id="Author" value="{{Author}}" />
-                  <label class="form-label" for="form3Example1q">Autor(a)</label>
-                </div>
-              </div>
-            </div>
-            
-            <div class="row g-2">
-              <div class="col-md">
-                <div class="form-group mb-4">
-                  <select class="form-select" name="Genre" id="Genre">
-                          {{#each Genres}}
-                          <option value="{{NameGenre}}">{{NameGenre}}</option>
-                          {{else}}
-                          <option value="">No hay géneros literarios registrados</option>
-                          {{/each}}
-                  </select>
-                  <label class="form-label" for="form3Example1q">Género literario</label>
-                </div>
-              </div>
-              <div class="col-md">
-                <div class="form-group mb-4">
-                  <select class="form-select"  name="Publisher" id="Publisher">
-                          {{#each Publishers}}
-                          <option value="{{NamePublisher}}">{{NamePublisher}}</option>
-                          {{else}}
-                          <option value="">No hay editoriales registradas</option>
-                          {{/each}}
-                  </select>
-                  <label class="form-label" for="form3Example1q">Editorial</label>
-                </div>
-              </div>
-            </div>
-            <div class="form-outline mb-4">
-                  <textarea class="form-control form-control-lg" name="Summary" id="Summary" rows="2"></textarea>
-                  <label class="form-label" for="form3Example1w">Sinopsis</label>
-            </div>   
-            <div class="form-outline mb-4">
-                  <input type="text" class="form-control form-control-lg" name="Cover" id="Cover" value="{{Cover}}" />
-                  <label class="form-label" for="form3Example1q">URL de la imagen que actuara como portada</label>
-            </div>
-            <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto ">Registrar</button>
-          </form>
 
+    <div class="col-lg-8 col-xl-6">
+      <div
+        class="card text-white"
+        style="border-radius: 20px; background-color: #001219; color: #E0FBFC; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+      >
+        <div class="card-body p-4 p-md-5">
+          <h3
+            class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2"
+            style="color: #94D2BD;"
+          >Nueva editorial</h3>
+
+          <form action="/books/publishers/add" method="post" class="px-md-2">
+            <div class="form-outline mb-4">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                name="NamePublisher"
+                id="NamePublisher"
+                value="{{NamePublisher}}"
+                autofocus
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+              />
+              <label class="form-label" style="color: #94D2BD;">Nombre</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                name="Adress"
+                id="Adress"
+                value="{{Adress}}"
+                autofocus
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+              />
+              <label
+                class="form-label"
+                style="color: #94D2BD;"
+              >Dirección</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input
+                type="number"
+                min="3"
+                step="1"
+                oninput="validity.valid||(value='');"
+                name="Celphone"
+                class="form-control form-control-lg"
+                value="{{Celphone}}"
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+              />
+              <label class="form-label" style="color: #94D2BD;">Número de
+                contacto</label>
+            </div>
+
+            <p></p>
+            <button
+              type="submit"
+              class="btn btn-lg"
+              style="background-color: #0A9396; color: #FFFFFF; border-radius: 30px; width: 100%;"
+            >Registrar</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
+
+  <p></p>
+
+  <div class="row d-flex justify-content-center align-items-center h-80">
+    <div
+      class="card text-white"
+      style="border-radius: 20px; background-color: #001219; color: #E0FBFC; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+    >
+      <div class="card-body p-4 p-md-5">
+        <h3
+          class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2"
+          style="color: #94D2BD;"
+        >Nuevo libro</h3>
+
+        <form action="/books/add" method="post" class="px-md-2">
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  name="Name"
+                  id="Name"
+                  value="{{Name}}"
+                  style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                />
+                <label class="form-label" style="color: #94D2BD;">Nombre</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  name="Author"
+                  id="Author"
+                  value="{{Author}}"
+                  style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                />
+                <label
+                  class="form-label"
+                  style="color: #94D2BD;"
+                >Autor(a)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-group mb-4">
+                <select
+                  class="form-select"
+                  name="Genre"
+                  id="Genre"
+                  style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                >
+                  {{#each Genres}}
+                    <option value="{{NameGenre}}">{{NameGenre}}</option>
+                  {{else}}
+                    <option value="">No hay géneros literarios registrados</option>
+                  {{/each}}
+                </select>
+                <label class="form-label" style="color: #94D2BD;">Género
+                  literario</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-group mb-4">
+                <select
+                  class="form-select"
+                  name="Publisher"
+                  id="Publisher"
+                  style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+                >
+                  {{#each Publishers}}
+                    <option value="{{NamePublisher}}">{{NamePublisher}}</option>
+                  {{else}}
+                    <option value="">No hay editoriales registradas</option>
+                  {{/each}}
+                </select>
+                <label
+                  class="form-label"
+                  style="color: #94D2BD;"
+                >Editorial</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-outline mb-4">
+            <textarea
+              class="form-control form-control-lg"
+              name="Summary"
+              id="Summary"
+              rows="2"
+              style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+            >{{Summary}}</textarea>
+            <label class="form-label" style="color: #94D2BD;">Sinopsis</label>
+          </div>
+
+          <div class="form-outline mb-4">
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              name="Cover"
+              id="Cover"
+              value="{{Cover}}"
+              style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
+            />
+            <label class="form-label" style="color: #94D2BD;">URL de la imagen
+              que actuará como portada</label>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-lg"
+            style="background-color: #0A9396; color: #FFFFFF; border-radius: 30px; width: 100%;"
+          >Registrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

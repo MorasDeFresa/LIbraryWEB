@@ -1,36 +1,70 @@
-html{
-    height: 100%;
+html {
+  height: 100%;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    
-    background-color: #cccccc;
-    background-position: center; 
-    background-repeat: repeat; 
-    background-size: cover; 
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background-position: center;
+  background-repeat: repeat;
+  background-size: cover;
 }
 
-footer{
-    margin-top: auto;
+footer {
+  margin-top: 0.5rem;
 }
 
-.logo{
-    width: 30%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+p {
+  text-align: justify;
 }
 
-
-.fondo{
-    border-color: rgba(193,242,255,255);
-    border-width: 5px;
+.content {
+  min-height: 100vh;
+  background-color: whitesmoke;
 }
 
-.boton{
-    background-color: rgba(254,254,18,255);
-    color: black;
+.header_landing {
+  background-image: url("/img/ExtensionChia_Cover.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.logo {
+  width: 30%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fondo {
+  border-color: #c7f9cc;
+  border-width: 5px;
+}
+
+.boton {
+  background-color: rgba(254, 254, 18, 255);
+  color: black;
+}
+
+.subtitulo {
+  text-align: center;
+}
+
+.paraMovil {
+  max-width: 70%;
+  height: auto;
+}
+
+@media (max-width: 40em) {
+  .header_landing {
+    background-position: right center;
+  }
+
+  .container {
+    max-width: 93%;
+  }
+  .subtitulo {
+    font-size: small;
+  }
 }
