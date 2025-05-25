@@ -9,7 +9,7 @@ const {
   GetAuthorById,
   EditAuthor,
   DeleteAuthor,
-} = require("../controllers/author");
+} = require("../controllers/authors");
 
 router.get("/authors", isAuthenticatedWithLessOptions, async (req, res) => {
   try {
