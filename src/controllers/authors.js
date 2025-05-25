@@ -1,5 +1,5 @@
 const AuthorDB = require("../models/Authors");
-
+const Books = require("../models/Book");
 const ListAuthors = async (req, res) => {
   const authors = await AuthorDB.find().lean().sort({ NameAutor: "ascending" });
   res.render("authors/view_authors", { authors });
@@ -37,14 +37,17 @@ const GetAuthorById = async (req, res) => {
 const EditAuthor = async (req, res) => {
   const { NameAutor, LastNameAutor, EmailAutor } = req.body;
 
-  await AuthorDB.findByIdAndUpdate(req.params.id, {
+  const aux = await AuthorDB.findByIdAndUpdate(req.params.id, {
     NameAutor,
     LastNameAutor,
     EmailAutor,
   }).lean();
-
+  await Books.updateMany(
+    { Author: aux.NameAutor },
+    { $set: { Author: NameAutor } }
+  ).lean();
   req.flash("success_msg", "Autor actualizado satisfactoriamente");
-  res.redirect("/authors");
+  res.redirect("/books");
 };
 
 const DeleteAuthor = async (req, res) => {
