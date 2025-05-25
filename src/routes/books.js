@@ -4,7 +4,7 @@ const {
   isAuthenticatedWithLessOptions,
 } = require("../helpers/auth");
 const {
-  ListGenresPublishers,
+  ListDependenciesBooks,
   CreateBooks,
   CreateGenres,
   CreatePublishers,
@@ -19,7 +19,7 @@ const {
 
 router.get("/books/add", isAuthenticated, async (req, res) => {
   try {
-    await ListGenresPublishers(res);
+    await ListDependenciesBooks(res);
   } catch (error) {
     console.error(error);
   }
