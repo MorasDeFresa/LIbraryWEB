@@ -5,7 +5,13 @@ const session = require("express-session");
 const exphbs = require("express-handlebars");
 const flash = require("connect-flash");
 const passport = require("passport");
-require("dotenv").config();
+const dotenv = require("dotenv");
+
+if (process.env.NODE_ENV === "production") {
+  dotenv.config({ path: "./.env.production" });
+} else {
+  dotenv.config({ path: "./.env.development" });
+}
 
 //Initializations
 const app = express();
