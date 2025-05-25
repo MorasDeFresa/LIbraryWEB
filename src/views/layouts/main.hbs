@@ -19,11 +19,13 @@
 <body style="background-color: #007B3E ;">
     {{> navigation}}
     <p></p>
-        <main class="content container" style="border-radius: 8px;">
+        <main class="container">
             {{> messages}}
             {{> errors}}
             <p></p>
-            {{{body}}}
+            <div class="content_empty">
+                {{{body}}}
+            </div>
             <p></p>
         </main>
         

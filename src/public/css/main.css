@@ -20,14 +20,19 @@ p {
 }
 
 .content {
-  min-height: 100vh;
   background-color: whitesmoke;
+  border-radius: 8px;
+}
+
+.content_empty {
+  min-height: 80vh;
 }
 
 .header_landing {
   background-image: url("/img/ExtensionChia_Cover.png");
   background-size: cover;
   background-repeat: no-repeat;
+  border-radius: 8px;
 }
 
 .logo {
