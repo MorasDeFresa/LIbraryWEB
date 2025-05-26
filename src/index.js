@@ -61,6 +61,7 @@ app.use(require("./routes/index"));
 app.use(require("./routes/users"));
 app.use(require("./routes/books"));
 app.use(require("./routes/authors"));
+app.use(require("./routes/loans"));
 
 //Static Files
 app.use(express.static(path.join(__dirname, "public")));
