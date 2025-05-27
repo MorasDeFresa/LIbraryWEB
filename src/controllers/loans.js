@@ -13,42 +13,65 @@ const ListDependenciesLoans = async (req, res) => {
 
 // Crear préstamo
 const CreateLoan = async (req, res) => {
-  const errors = [];
-  const { User, Devolution_date, Loan_state, Details } = req.body;
+  try {
+    const { User, Devolution_date } = req.body;
+    const Loan_state = "activo";
 
-  const requiredFields = ["User", "Devolution_date", "Loan_state", "Details"];
-
-  for (const field of requiredFields) {
-    if (!req.body[field] || req.body[field].length === 0) {
-      errors.push({ text: "Datos incompletos para la creación del préstamo" });
-      break;
+    // Validar campos requeridos
+    if (!User || !Devolution_date) {
+      req.flash("error_msg", "Todos los campos son requeridos");
+      return res.redirect("/loans/add");
     }
-  }
 
-  if (errors.length > 0) {
-    const [Users, Books] = await Promise.all([
-      UserDB.find().lean().sort({ Username: "ascending" }),
-      BookDB.find().lean().sort({ Name: "ascending" }),
-    ]);
+    let parsedDetails;
+    try {
+      parsedDetails =
+        typeof Details === "string" ? JSON.parse(Details) : Details;
 
-    res.render("loans/create_loans", {
-      errors,
-      Users,
-      Books,
-      User,
-      Devolution_date,
-      Loan_state,
-      Details,
-    });
-  } else {
+      // Asegurarse que los detalles sean un array
+      if (!Array.isArray(parsedDetails)) {
+        parsedDetails = [parsedDetails];
+      }
+
+      // Validar estructura de cada libro
+      parsedDetails = parsedDetails.map((detail) => {
+        if (typeof detail === "string") {
+          return {
+            book: detail,
+            book_title: "Título no disponible",
+          };
+        }
+        return {
+          book: detail.book || detail._id || detail,
+          book_title: detail.book_title || "Título no disponible",
+        };
+      });
+    } catch (error) {
+      console.error("Error parsing loan details:", error);
+      req.flash("error_msg", "Formato inválido para los libros seleccionados");
+      return res.redirect("/loans/add");
+    }
+
+    // Validar que haya al menos un libro
+    if (parsedDetails.length === 0) {
+      req.flash("error_msg", "Debes seleccionar al menos un libro");
+      return res.redirect("/loans/add");
+    }
+
+    // Crear el nuevo préstamo (usando los nombres del modelo)
     const newLoan = new LoanDB({
-      User,
-      Devolution_date,
-      Loan_state,
-      Details,
+      user: User, // Ahora coincide con el modelo
+      devolution_date: new Date(Devolution_date), // Ahora coincide
+      loan_state: Loan_state, // Ahora coincide
+      // details: parsedDetails, // Ahora coincide
     });
+
     await newLoan.save();
-    req.flash("success_msg", "El nuevo préstamo se registró exitosamente");
+    req.flash("success_msg", "Préstamo creado exitosamente");
+    res.redirect("/loans");
+  } catch (error) {
+    console.error("Error creating loan:", error);
+    req.flash("error_msg", "Error al crear el préstamo: " + error.message);
     res.redirect("/loans/add");
   }
 };

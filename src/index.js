@@ -13,34 +13,27 @@ if (process.env.NODE_ENV === "production") {
   dotenv.config({ path: "./.env.development" });
 }
 
-// Initializations
+//Initializations
 const app = express();
 require("./database");
 require("./config/passport");
 
-// Settings
-app.set("port", process.env.PORT || 3000);
-console.log("Server en el puerto ", app.get("port"));
+//Settings
+app.listen(process.env.PORT || 3000);
+console.log("Server en el puerto ", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "views"));
-
-// Configuración de Handlebars con el helper ifEquals
 app.engine(
   ".hbs",
   exphbs.engine({
-    defaultLayout: "main",
+    defaultLayout: "main.hbs",
     layoutsDir: path.join(app.get("views"), "layouts"),
     partialsDir: path.join(app.get("views"), "partials"),
     extname: ".hbs",
-    helpers: {
-      ifEquals: function (arg1, arg2, options) {
-        return arg1 === arg2 ? options.fn(this) : options.inverse(this);
-      },
-    },
   })
 );
 app.set("view engine", ".hbs");
 
-// Middlewares
+//Middlewares
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(
@@ -54,7 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-// Global Variables
+//Global Variables
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
@@ -63,17 +56,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
+//Routes
 app.use(require("./routes/index"));
 app.use(require("./routes/users"));
 app.use(require("./routes/books"));
 app.use(require("./routes/authors"));
 app.use(require("./routes/loans"));
 
-// Static Files
+//Static Files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Server is listening
+//Server is listening
 app.listen(app.get("port"), () => {
   console.log("El server esta en el puerto: ", app.get("port"));
 });
