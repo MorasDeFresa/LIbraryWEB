@@ -1,0 +1,54 @@
+<div class="container py-1 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100 mb-4">
+        <div class="col-log-8 col-xl-6">
+            <div class="card text-white"
+                style="border-radius: 20px; background-color: #001219; color: #E0FBFC; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2" style="color #94D2BD;">
+                        Nuevo préstamo
+                    </h3>
+                    <form action="/loans/add" method="post" class="px-md-2">
+                        <div class="form-outline mb-4">
+                            <input type="text" class="form-control form-control-lg" name="User" id="User"
+                                value="{{User}}"
+                                style="background-color: #E0FBFC; color: #001219; border: radius 10px;" />
+                            {{#each Users}}
+                            <option value="{{_id}}">{{Username}}</option>
+                            {{else}}
+                            <option value="">No hay usuarios registrados</option>
+                            {{/each}}
+                            </select>
+                            <label class="form-label" style="color: #94D2BD;">Usuario</label>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="date" class="form-control form-control-lg" name="devolution_date"
+                                id="devolution_date" value="{{devolution_date}}"
+                                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;">
+                            <label class="form-label" style="color: #94D2BD;">Fecha de devolución</label>
+                        </div>
+                        <input type="hidden" name="loan_state" value="activo" />
+                        <div class="form-outline mb-4">
+                            <label class="form-label" style="color: #94D2BD;">Selecciona libros</label>
+                            {{#each Books}}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="details"
+                                    value='{"book":"{{_id}}","book_title":"{{Name}}"}' id="book_{{_id}}"
+                                    style="margin-right: 10px;" />
+                                <label class="form-check-label" for="book_{{_id}}">
+                                    {{Name}}
+                                </label>
+                            </div>
+                            {{else}}
+                            <p style="color: #fff;">No hay libros disponibles</p>
+                            {{/each}}
+                        </div>
+                        <button type="submit" class="btn btn-lg"
+                            style="background-color: #0A9396; color: #FFFFFF; border-radius: 30px; width: 100%;">
+                            Registrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
