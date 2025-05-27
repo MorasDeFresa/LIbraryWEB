@@ -1,1 +1,1 @@
-mongo_database="(aqui pones la direccion de tu base de datos MongoDB)"
+mongo_database="mongodb+srv://LibraryUdec:WyjperGBFq5TqvW2@cluster0.faxmnqj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"

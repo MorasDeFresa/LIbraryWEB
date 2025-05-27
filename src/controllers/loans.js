@@ -2,18 +2,19 @@ const LoanDB = require("../models/Loans");
 const UserDB = require("../models/User");
 const BookDB = require("../models/Book");
 
-const ListDependenciesLoans = async (res) => {
+// Listar usuarios y libros para crear préstamos
+const ListDependenciesLoans = async (req, res) => {
   const Users = await UserDB.find()
     .lean()
     .sort({ nombre_usuario: "ascending" });
   const Books = await BookDB.find().lean().sort({ Name: "ascending" });
-  res.render("loans/create_loan", { Users, Books });
+  res.render("loans/create_loans", { Users, Books });
 };
 
+// Crear préstamo
 const CreateLoan = async (req, res) => {
   const errors = [];
-  const savedValues = ({ User, Devolution_date, Loan_state, Details } =
-    req.body);
+  const { User, Devolution_date, Loan_state, Details } = req.body;
 
   const requiredFields = ["User", "Devolution_date", "Loan_state", "Details"];
 
@@ -30,20 +31,29 @@ const CreateLoan = async (req, res) => {
       BookDB.find().lean().sort({ Name: "ascending" }),
     ]);
 
-    res.render("loans/create_loan", {
+    res.render("loans/create_loans", {
       errors,
       Users,
       Books,
-      ...savedValues,
+      User,
+      Devolution_date,
+      Loan_state,
+      Details,
     });
   } else {
-    const newLoan = new LoanDB({savedValues});
+    const newLoan = new LoanDB({
+      User,
+      Devolution_date,
+      Loan_state,
+      Details,
+    });
     await newLoan.save();
     req.flash("success_msg", "El nuevo préstamo se registró exitosamente");
     res.redirect("/loans/add");
   }
 };
 
+// Resto de funciones sin cambios
 const ListLoanById = async (req, res) => {
   const loan = await LoanDB.findById(req.params.id).lean();
   const User = await UserDB.findById(loan.user).lean();
@@ -89,16 +99,16 @@ const DeleteLoan = async (req, res) => {
 };
 
 const GetAllLoans = async (req, res) => {
-    const loan = await Loans.findById(req.params.id).lean();
-    const user = res.locals.isAuthenticated;
-    res.render("loans/view_loans",{loan,user});
-}
+  const loan = await LoanDB.findById(req.params.id).lean();
+  const user = res.locals.isAuthenticated;
+  res.render("loans/view_loans", { loan, user });
+};
 
 const GetSingleLoan = async (req, res) => {
-    const loan = await Loans.findById(req.params.id).lean();
-    const user = res.locals.isAuthenticated;
-    res.render("loans/view_single_loan",{loan,user});
-}
+  const loan = await LoanDB.findById(req.params.id).lean();
+  const user = res.locals.isAuthenticated;
+  res.render("loans/view_single_loan", { loan, user });
+};
 
 module.exports = {
   ListDependenciesLoans,
