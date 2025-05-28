@@ -35,6 +35,10 @@ p {
   border-radius: 8px;
 }
 
+.btn-no-lift:hover {
+  transform: none !important;
+}
+
 .logo {
   width: 30%;
   display: block;
