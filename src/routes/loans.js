@@ -15,7 +15,7 @@ const {
 
 router.get("/loans/add", isAuthenticated, async (req, res) => {
   try {
-    await ListDependenciesLoans(req, res);
+    await ListDependenciesLoans(res);
   } catch (error) {
     console.error(error);
   }
@@ -25,7 +25,7 @@ router.post("/loans/add", isAuthenticated, async (req, res) => {
   try {
     await CreateLoan(req, res);
   } catch (error) {
-    console.error(error);
+    console.error('El error xd:',error);
   }
 });
 

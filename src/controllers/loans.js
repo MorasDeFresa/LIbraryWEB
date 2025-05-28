@@ -2,8 +2,7 @@ const LoanDB = require("../models/Loans");
 const UserDB = require("../models/User");
 const BookDB = require("../models/Book");
 
-// Listar usuarios y libros para crear préstamos
-const ListDependenciesLoans = async (req, res) => {
+const ListDependenciesLoans = async (res) => {
   const Users = await UserDB.find()
     .lean()
     .sort({ nombre_usuario: "ascending" });
@@ -11,72 +10,45 @@ const ListDependenciesLoans = async (req, res) => {
   res.render("loans/create_loans", { Users, Books });
 };
 
-// Crear préstamo
 const CreateLoan = async (req, res) => {
-  try {
-    const { User, Devolution_date } = req.body;
-    const Loan_state = "activo";
+  try{
+    const errors = [];
+  const savedValues = ({ User, Devolution_date, Loan_state } =
+    req.body);
 
-    // Validar campos requeridos
-    if (!User || !Devolution_date) {
-      req.flash("error_msg", "Todos los campos son requeridos");
-      return res.redirect("/loans/add");
+  const requiredFields = ["User", "Devolution_date"];
+
+  for (const field of requiredFields) {
+    if (!req.body[field] || req.body[field].length === 0) {
+      errors.push({ text: "Datos incompletos para la creación del préstamo" });
+      break;
     }
+  }
 
-    let parsedDetails;
-    try {
-      parsedDetails =
-        typeof Details === "string" ? JSON.parse(Details) : Details;
+  if (errors.length > 0) {
+    const [user, Books] = await Promise.all([
+      UserDB.find().lean().sort({ Username: "ascending" }),
+      BookDB.find().lean().sort({ Name: "ascending" }),
+    ]);
+    
 
-      // Asegurarse que los detalles sean un array
-      if (!Array.isArray(parsedDetails)) {
-        parsedDetails = [parsedDetails];
-      }
-
-      // Validar estructura de cada libro
-      parsedDetails = parsedDetails.map((detail) => {
-        if (typeof detail === "string") {
-          return {
-            book: detail,
-            book_title: "Título no disponible",
-          };
-        }
-        return {
-          book: detail.book || detail._id || detail,
-          book_title: detail.book_title || "Título no disponible",
-        };
-      });
-    } catch (error) {
-      console.error("Error parsing loan details:", error);
-      req.flash("error_msg", "Formato inválido para los libros seleccionados");
-      return res.redirect("/loans/add");
-    }
-
-    // Validar que haya al menos un libro
-    if (parsedDetails.length === 0) {
-      req.flash("error_msg", "Debes seleccionar al menos un libro");
-      return res.redirect("/loans/add");
-    }
-
-    // Crear el nuevo préstamo (usando los nombres del modelo)
-    const newLoan = new LoanDB({
-      user: User, // Ahora coincide con el modelo
-      devolution_date: new Date(Devolution_date), // Ahora coincide
-      loan_state: Loan_state, // Ahora coincide
-      // details: parsedDetails, // Ahora coincide
+    res.render("loans/create_loans", {
+      errors,
+      Users,
+      Books,
+      ...savedValues,
     });
-
+  } else {
+    const newLoan = new LoanDB({...savedValues});
     await newLoan.save();
-    req.flash("success_msg", "Préstamo creado exitosamente");
-    res.redirect("/loans");
-  } catch (error) {
-    console.error("Error creating loan:", error);
-    req.flash("error_msg", "Error al crear el préstamo: " + error.message);
+    req.flash("success_msg", "El nuevo préstamo se registró exitosamente");
     res.redirect("/loans/add");
+  }
+  }catch(error){
+    console.log(error)
   }
 };
 
-// Resto de funciones sin cambios
 const ListLoanById = async (req, res) => {
   const loan = await LoanDB.findById(req.params.id).lean();
   const User = await UserDB.findById(loan.user).lean();
@@ -122,16 +94,16 @@ const DeleteLoan = async (req, res) => {
 };
 
 const GetAllLoans = async (req, res) => {
-  const loan = await LoanDB.findById(req.params.id).lean();
-  const user = res.locals.isAuthenticated;
-  res.render("loans/view_loans", { loan, user });
-};
+    const loan = await Loans.findById(req.params.id).lean();
+    const user = res.locals.isAuthenticated;
+    res.render("loans/view_loans",{loan,user});
+}
 
 const GetSingleLoan = async (req, res) => {
-  const loan = await LoanDB.findById(req.params.id).lean();
-  const user = res.locals.isAuthenticated;
-  res.render("loans/view_single_loan", { loan, user });
-};
+    const loan = await Loans.findById(req.params.id).lean();
+    const user = res.locals.isAuthenticated;
+    res.render("loans/view_single_loan",{loan,user});
+}
 
 module.exports = {
   ListDependenciesLoans,
