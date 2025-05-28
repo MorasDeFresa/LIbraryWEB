@@ -1,6 +1,7 @@
 const LoanDB = require("../models/Loans");
 const UserDB = require("../models/User");
 const BookDB = require("../models/Book");
+const User = require("../models/User");
 
 const ListDependenciesLoans = async (res) => {
   const Users = await UserDB.find()
@@ -94,15 +95,18 @@ const DeleteLoan = async (req, res) => {
 };
 
 const GetAllLoans = async (req, res) => {
-    const loan = await Loans.findById(req.params.id).lean();
-    const user = res.locals.isAuthenticated;
-    res.render("loans/view_loans",{loan,user});
-}
+  const loans = await LoanDB.find()
+    .populate("User") // importante para mostrar el nombre del usuario
+    .lean();
+
+  const user = res.locals.isAuthenticated;
+  res.render("loans/view_loans", { loans, user });
+};
 
 const GetSingleLoan = async (req, res) => {
-    const loan = await Loans.findById(req.params.id).lean();
+    const loan = await LoanDB.findById(req.params.id).lean().populate("User");
     const user = res.locals.isAuthenticated;
-    res.render("loans/view_single_loan",{loan,user});
+    res.render("loans/view_single_loans",{loan,user});
 }
 
 module.exports = {
