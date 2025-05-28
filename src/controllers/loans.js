@@ -23,7 +23,9 @@ const CreateLoan = async (req, res) => {
 
     for (const field of requiredFields) {
       if (!req.body[field] || req.body[field].length === 0) {
-        errors.push({ text: "Datos incompletos para la creación del préstamo" });
+        errors.push({
+          text: "Datos incompletos para la creación del préstamo",
+        });
         break;
       }
     }
@@ -57,56 +59,56 @@ const SearchLoans = async (req, res) => {
 
     if (!searchTerm || searchTerm.length < 2) {
       return res.render("loans/search_loans", {
-        searchTerm: '',
+        searchTerm: "",
         loans: [],
-        message: 'Por favor, ingresa al menos 2 caracteres para buscar.'
+        message: "Por favor, ingresa al menos 2 caracteres para buscar.",
       });
     }
 
     // Buscar libros que coincidan con el nombre
     const books = await BookDB.find({
-      Name: { $regex: searchTerm, $options: 'i' }
+      Name: { $regex: searchTerm, $options: "i" },
     }).lean();
 
     if (!books.length) {
       return res.render("loans/search_loans", {
         searchTerm,
         loans: [],
-        message: 'No se encontraron libros con ese nombre.'
+        message: "No se encontraron libros con ese nombre.",
       });
     }
 
-    const bookIds = books.map(book => book._id);
+    const bookIds = books.map((book) => book._id);
 
     // Buscar préstamos que contienen esos libros
     const loans = await LoanDB.find({
-      'details.book': { $in: bookIds }
+      "details.book": { $in: bookIds },
     })
-      .populate('User')
-      .populate('details.book') // <- muy importante para mostrar el nombre
+      .populate("User")
+      .populate("details.book") // <- muy importante para mostrar el nombre
       .lean();
 
     // Agregar formato de fecha y extraer títulos de los libros
     const formatDate = (date) => {
       const d = new Date(date);
-      return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1)
-        .toString().padStart(2, '0')}/${d.getFullYear()}`;
+      return `${d.getDate().toString().padStart(2, "0")}/${(d.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}/${d.getFullYear()}`;
     };
 
-    loans.forEach(loan => {
+    loans.forEach((loan) => {
       loan.Loan_date_formatted = formatDate(loan.loan_date);
       loan.Devolution_date_formatted = formatDate(loan.Devolution_date);
-      loan.details.forEach(detail => {
-        detail.book_title = detail.book?.Name || 'Libro no encontrado';
+      loan.details.forEach((detail) => {
+        detail.book_title = detail.book?.Name || "Libro no encontrado";
       });
     });
 
     res.render("loans/search_loans", {
       searchTerm,
       loans,
-      message: loans.length ? null : 'No hay préstamos para ese libro.'
+      message: loans.length ? null : "No hay préstamos para ese libro.",
     });
-
   } catch (error) {
     console.error("Error en SearchLoans:", error);
     res.status(500).send("Error interno al buscar préstamos.");
@@ -114,7 +116,6 @@ const SearchLoans = async (req, res) => {
 };
 
 //prueba
-
 
 const ListLoanById = async (req, res) => {
   const loan = await LoanDB.findById(req.params.id).lean();
@@ -149,16 +150,14 @@ const ListLoanById = async (req, res) => {
   });
 };
 
-
-
-
-
 const EditLoan = async (req, res) => {
   const { user, devolution_date, loan_state, details } = req.body;
 
   const parsedDetails = Array.isArray(details)
     ? details.map((d) => JSON.parse(d))
-    : details ? [JSON.parse(details)] : [];
+    : details
+    ? [JSON.parse(details)]
+    : [];
 
   await LoanDB.findByIdAndUpdate(req.params.id, {
     User: user,
@@ -178,10 +177,7 @@ const DeleteLoan = async (req, res) => {
 };
 
 const GetAllLoans = async (req, res) => {
-  const loans = await LoanDB.find()
-    .populate("User") // importante para mostrar el nombre del usuario
-    .lean();
-
+  const loans = await LoanDB.find().populate("User").lean();
   const user = res.locals.isAuthenticated;
   res.render("loans/view_loans", { loans, user });
 };
@@ -203,7 +199,7 @@ const GetSingleLoan = async (req, res) => {
   loan.Devolution_date_formatted = formatDate(loan.Devolution_date);
 
   res.render("loans/view_single_loans", { loan, user });
-}
+};
 
 module.exports = {
   ListDependenciesLoans,
