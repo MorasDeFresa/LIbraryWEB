@@ -25,7 +25,7 @@ const CreateAuthor = async (req, res) => {
     const newAuthor = new AuthorDB({ NameAutor, LastNameAutor, EmailAutor });
     await newAuthor.save();
     req.flash("success_msg", "Autor registrado exitosamente");
-    res.redirect("/authors");
+    res.redirect("/books/add");
   }
 };
 

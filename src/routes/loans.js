@@ -11,21 +11,22 @@ const {
   DeleteLoan,
   GetAllLoans,
   GetSingleLoan,
+  SearchLoans,
 } = require("../controllers/loans");
 
-router.get("/loans/add", isAuthenticated, async (req, res) => {
-    try {
-        await ListDependenciesLoans(res);
-    } catch (error) {
-        console.error(error);
-    }
+router.get("/loans/add", async (req, res) => {
+  try {
+    await ListDependenciesLoans(res);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
-router.post("/loans/add", isAuthenticated, async (req, res) => {
+router.post("/loans/add", async (req, res) => {
   try {
     await CreateLoan(req, res);
   } catch (error) {
-    console.error(error);
+    console.error("buenos dias", error);
   }
 });
 
@@ -61,11 +62,25 @@ router.get("/loans", isAuthenticatedWithLessOptions, async (req, res) => {
   }
 });
 
-router.get("/books/:id", isAuthenticatedWithLessOptions, async(req,res)=>{
+router.get(
+  "/loans/search",
+  isAuthenticatedWithLessOptions,
+  async (req, res) => {
     try {
-        GetSingleLoan(req,res);
+      await SearchLoans(req, res);
     } catch (error) {
-        console.error(error);
+      console.error(error);
+      res.status(500).send("Error al buscar préstamos");
     }
+  }
+);
+
+router.get("/loans/:id", isAuthenticatedWithLessOptions, async (req, res) => {
+  try {
+    GetSingleLoan(req, res);
+  } catch (error) {
+    console.error(error);
+  }
 });
+
 module.exports = router;

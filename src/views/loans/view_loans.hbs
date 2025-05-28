@@ -1,0 +1,49 @@
+<div class="container my-4">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {{#each loans}}
+    <div class="col">
+      <div class="card bg-dark text-white h-100 shadow-lg rounded-4">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="card-title text-center mb-3 fs-4">📚 Préstamo</h5>
+            <p class="card-text"><strong>Usuario:</strong> {{User.Username}}</p>
+            <p class="card-text"><strong>Estado:</strong> {{loan_state}}</p>
+            <p class="card-text"><strong>Libros:</strong></p>
+            <ul class="list-unstyled ps-3">
+              {{#each details}}
+              <li>📖 {{this.book_title}}</li>
+              {{else}}
+              <li>No hay libros registrados</li>
+              {{/each}}
+            </ul>
+          </div>
+
+          <div class="mt-3">
+            <a href="/loans/{{_id}}" class="btn btn-outline-info w-100 mb-2 btn-no-lift">Ver más</a>
+            {{#if ../user}}
+            <div class="d-flex justify-content-between">
+              <a href="/loans/edit/{{_id}}" class="btn btn-sm btn-info">
+                <i class="fas fa-edit"></i> Editar
+              </a>
+              <form action="/loans/delete/{{_id}}?_method=delete" method="post" class="d-inline">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="btn btn-sm btn-danger">
+                  <i class="fa-solid fa-xmark"></i> Eliminar
+                </button>
+              </form>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+    {{else}}
+    {{#if user}}
+    <div class="col-12 text-center py-4">
+      <h3 class="text-light">No se encuentran préstamos registrados</h3>
+      <a href="/loans/add" class="btn btn-danger mt-3">Registrar un nuevo préstamo</a>
+    </div>
+    {{/if}}
+    {{/each}}
+  </div>
+</div>

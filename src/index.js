@@ -29,6 +29,11 @@ app.engine(
     layoutsDir: path.join(app.get("views"), "layouts"),
     partialsDir: path.join(app.get("views"), "partials"),
     extname: ".hbs",
+    helpers: {
+      eq: function (a, b, options) {
+        return a === b;
+      },
+    },
   })
 );
 app.set("view engine", ".hbs");
@@ -65,8 +70,3 @@ app.use(require("./routes/loans"));
 
 //Static Files
 app.use(express.static(path.join(__dirname, "public")));
-
-//Server is listening
-app.listen(app.get("port"), () => {
-  console.log("El server esta en el puerto: ", app.get("port"));
-});

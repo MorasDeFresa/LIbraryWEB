@@ -1,0 +1,59 @@
+<div class="container py-1 h-100">
+  <div class="row d-flex justify-content-center align-items-center h-100 mb-4">
+    <div class="col-lg-8 col-xl-8">
+      <div class="card text-white bg-dark">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Editar préstamo</h3>
+
+          <form action="/loans/edit-loan/{{loan._id}}?_method=put" method="post" class="px-md-2">
+            {{!-- <div class="form-outline mb-4">
+              <select class="form-select" name="user" id="user">
+                <option value="{{User._id}}">{{user.Username}}</option>
+                {{#each ser}}
+                <option value="{{_id}}">{{Username}}</option>
+                {{/each}}
+              </select>
+              <label class="form-label">Usuario</label>
+            </div> --}}
+
+            <div class="fs-5 mb-4">
+              <span><strong>Usuario:</strong> {{user.Username}}</span>
+            </div>
+
+            <!-- Fecha de devolución -->
+            <div class="form-outline mb-4">
+              <input type="date" name="devolution_date" id="devolution_date" class="form-control"
+                value="{{devolution_date_formatted}}" />
+              <label class="form-label">Fecha de devolución</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <select class="form-select" name="loan_state" id="loan_state">
+                {{#each loanStates}}
+                <option value="{{name}}" {{selected}}>{{name}}</option>
+                {{/each}}
+              </select>
+              <label class="form-label">Estado del prestamo</label>
+            </div>
+
+            <div class="fs-5 mb-4">
+              <p class="card-text"><strong>Libros:</strong></p>
+              <ul style="list-style: none; padding-left: 0;">
+                {{#each loan.details}}
+                <li> - {{this.book_title}}</li>
+                {{else}}
+                <li>No hay libros registrados</li>
+                {{/each}}
+              </ul>
+            </div>
+
+            <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto">
+              Editar y Guardar
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

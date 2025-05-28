@@ -7,11 +7,11 @@ const LoanDetailSchema = new Schema({
 });
 
 const LoanSchema = new Schema({
-  User: { type: Schema.Types.ObjectId, ref: "Users", required: true },
-  Loan_date: { type: Date, default: Date.now },
+  User: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  loan_date: { type: Date, default: Date.now },
   Devolution_date: { type: Date, required: true },
-  Loan_state: { type: String, required: true },
-  Details: [LoanDetailSchema],
+  loan_state: { type: String, required: true, default: "activo" },
+  details: { type: [LoanDetailSchema], required: false },
 });
 
-module.exports = mongoose.model("Loans", LoanSchema);
+module.exports = mongoose.model('Loans', LoanSchema); //Llamar como LoanDB

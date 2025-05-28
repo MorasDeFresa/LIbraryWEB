@@ -217,7 +217,7 @@
                   style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
                 >
                   {{#each Authors}}
-                    <option value="{{NameAutor}}">{{NameAutor}}</option>
+                    <option value="{{NameAutor}}" {{#if (eq NameAutor ../Author)}}selected{{/if}}>{{NameAutor}}</option>
                   {{else}}
                     <option value="">No hay autores registrados</option>
                   {{/each}}
@@ -240,7 +240,7 @@
                   style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
                 >
                   {{#each Genres}}
-                    <option value="{{NameGenre}}">{{NameGenre}}</option>
+                    <option value="{{NameGenre}}" {{#if (eq NameGenre ../Genre)}}selected{{/if}}>{{NameGenre}}</option>
                   {{else}}
                     <option value="">No hay géneros literarios registrados</option>
                   {{/each}}
@@ -258,7 +258,7 @@
                   style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
                 >
                   {{#each Publishers}}
-                    <option value="{{NamePublisher}}">{{NamePublisher}}</option>
+                    <option value="{{NamePublisher}}" {{#if (eq NamePublisher ../Publisher)}}selected{{/if}}>{{NamePublisher}}</option>
                   {{else}}
                     <option value="">No hay editoriales registradas</option>
                   {{/each}}
