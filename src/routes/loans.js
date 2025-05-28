@@ -31,7 +31,7 @@ router.post("/loans/add", isAuthenticated, async (req, res) => {
 
 router.get("/loans/edit/:id", isAuthenticated, async (req, res) => {
   try {
-    await ListLoanById(req, res);
+    await EditLoan(req, res);
   } catch (error) {
     console.error(error);
   }
@@ -61,7 +61,7 @@ router.get("/loans", isAuthenticatedWithLessOptions, async (req, res) => {
   }
 });
 
-router.get("/books/:id", isAuthenticatedWithLessOptions, async (req, res) => {
+router.get("/loans/:id", isAuthenticatedWithLessOptions, async (req, res) => {
   try {
     GetSingleLoan(req, res);
   } catch (error) {

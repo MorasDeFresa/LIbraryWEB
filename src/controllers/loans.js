@@ -12,43 +12,44 @@ const ListDependenciesLoans = async (res) => {
 };
 
 const CreateLoan = async (req, res) => {
-  try{
+  try {
     const errors = [];
-  const savedValues = ({ User, Devolution_date, Loan_state } =
-    req.body);
+    const { User, Devolution_date, Loan_state} = req.body;
+    const details = JSON.parse(req.body.Details || "[]");
+    const savedValues = { User, Devolution_date, Loan_state, details };
 
-  const requiredFields = ["User", "Devolution_date"];
+    const requiredFields = ["User", "Devolution_date"];
 
-  for (const field of requiredFields) {
-    if (!req.body[field] || req.body[field].length === 0) {
-      errors.push({ text: "Datos incompletos para la creación del préstamo" });
-      break;
+    for (const field of requiredFields) {
+      if (!req.body[field] || req.body[field].length === 0) {
+        errors.push({ text: "Datos incompletos para la creación del préstamo" });
+        break;
+      }
     }
-  }
 
-  if (errors.length > 0) {
-    const [user, Books] = await Promise.all([
-      UserDB.find().lean().sort({ Username: "ascending" }),
-      BookDB.find().lean().sort({ Name: "ascending" }),
-    ]);
-    
+    if (errors.length > 0) {
+      const [Users, Books] = await Promise.all([
+        UserDB.find().lean().sort({ Username: "ascending" }),
+        BookDB.find().lean().sort({ Name: "ascending" }),
+      ]);
 
-    res.render("loans/create_loans", {
-      errors,
-      Users,
-      Books,
-      ...savedValues,
-    });
-  } else {
-    const newLoan = new LoanDB({...savedValues});
-    await newLoan.save();
-    req.flash("success_msg", "El nuevo préstamo se registró exitosamente");
-    res.redirect("/loans/add");
-  }
-  }catch(error){
-    console.log(error)
+      res.render("loans/create_loans", {
+        errors,
+        Users,
+        Books,
+        ...savedValues,
+      });
+    } else {
+      const newLoan = new LoanDB({ ...savedValues });
+      await newLoan.save();
+      req.flash("success_msg", "El nuevo préstamo se registró exitosamente");
+      res.redirect("/loans/add");
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
+
 
 const ListLoanById = async (req, res) => {
   const loan = await LoanDB.findById(req.params.id).lean();
@@ -106,6 +107,19 @@ const GetAllLoans = async (req, res) => {
 const GetSingleLoan = async (req, res) => {
     const loan = await LoanDB.findById(req.params.id).lean().populate("User");
     const user = res.locals.isAuthenticated;
+      // Formatear fechas directamente desde el controlador
+    const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  // Añadir fechas formateadas al objeto
+  loan.Loan_date_formatted = formatDate(loan.loan_date);
+  loan.Devolution_date_formatted = formatDate(loan.Devolution_date);
+
     res.render("loans/view_single_loans",{loan,user});
 }
 

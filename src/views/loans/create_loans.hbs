@@ -1,30 +1,21 @@
 <div class="container py-1 h-100">
   <div class="row d-flex justify-content-center align-items-center h-100 mb-4">
     <div class="col-lg-8 col-xl-6">
-      <div
-        class="card text-white"
-        style="border-radius: 20px; background-color: #001219; color: #E0FBFC; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
-      >
+      <div class="card text-white"
+        style="border-radius: 20px; background-color: #001219; color: #E0FBFC; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
         <div class="card-body p-4 p-md-5">
-          <h3
-            class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2"
-            style="color: #94D2BD;"
-          >Nuevo préstamo</h3>
+          <h3 class="mb-2 pb-1 pb-md-0 mb-md-5 px-md-2" style="color: #94D2BD;">Nuevo préstamo</h3>
 
           <form action="/loans/add" method="post" class="px-md-2" id="loanForm">
             <!-- Selección de Usuario -->
             <div class="form-outline mb-4">
               <label class="form-label" style="color: #94D2BD;">Usuario</label>
-              <select
-                class="form-control form-control-lg"
-                name="User"
-                required
-                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
-              >
+              <select class="form-control form-control-lg" name="User" required
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;">
                 {{#each Users}}
-                  <option value="{{_id}}">{{Username}}</option>
+                <option value="{{_id}}">{{Username}}</option>
                 {{else}}
-                  <option value="">No hay usuarios registrados</option>
+                <option value="">No hay usuarios registrados</option>
                 {{/each}}
               </select>
             </div>
@@ -33,48 +24,33 @@
             <div class="form-outline mb-4">
               <label class="form-label" style="color: #94D2BD;">Fecha de
                 devolución</label>
-              <input
-                type="date"
-                class="form-control form-control-lg"
-                name="Devolution_date"
-                required
-                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;"
-              />
+              <input type="date" class="form-control form-control-lg" name="Devolution_date" required
+                style="background-color: #E0FBFC; color: #001219; border-radius: 10px;" />
             </div>
 
             <!-- Selección de Libros -->
             <div class="form-outline mb-4">
               <label class="form-label" style="color: #94D2BD;">Libros
                 disponibles</label>
-              <div
-                class="books-container"
-                style="max-height: 300px; overflow-y: auto; background-color: #E0FBFC; color: #001219; border-radius: 10px; padding: 15px;"
-              >
+              <div class="books-container"
+                style="max-height: 300px; overflow-y: auto; background-color: #E0FBFC; color: #001219; border-radius: 10px; padding: 15px;">
                 {{#each Books}}
-                  <div class="form-check mb-2">
-                    <input
-                      class="form-check-input book-checkbox"
-                      type="checkbox"
-                      value="{{_id}}"
-                      data-title="{{Name}}"
-                      style="margin-right: 10px;"
-                    />
-                    <label class="form-check-label" style="color: #001219;">
-                      {{Name}}
-                      <small class="text-muted">({{Author}})</small>
-                    </label>
-                  </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input book-checkbox" type="checkbox" value="{{_id}}" data-title="{{Name}}"
+                    style="margin-right: 10px;" />
+                  <label class="form-check-label" style="color: #001219;">
+                    {{Name}}
+                    <small class="text-muted">({{Author}})</small>
+                  </label>
+                </div>
                 {{else}}
-                  <p style="color: #001219;">No hay libros disponibles</p>
+                <p style="color: #001219;">No hay libros disponibles</p>
                 {{/each}}
               </div>
             </div>
 
-            <button
-              type="submit"
-              class="btn btn-lg"
-              style="background-color: #0A9396; color: #FFFFFF; border-radius: 30px; width: 100%;"
-            >
+            <button type="submit" class="btn btn-lg"
+              style="background-color: #0A9396; color: #FFFFFF; border-radius: 30px; width: 100%;">
               Registrar préstamo
             </button>
           </form>
@@ -85,20 +61,21 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() { // Establecer fecha
-  mínima como hoy const today = new Date().toISOString().split('T')[0];
-  document.querySelector('input[name="Devolution_date"]').min = today; //
-  Manejar el envío del formulario
-  document.getElementById('loanForm').addEventListener('submit', function(e) {
-  e.preventDefault(); // Obtener libros seleccionados const selectedBooks =
-  Array.from(document.querySelectorAll('.book-checkbox:checked')) .map(checkbox
-  => ({ book: checkbox.value, book_title: checkbox.dataset.title || 'Título no
-  disponible' })); // Validar selección if (selectedBooks.length === 0) {
-  alert('Por favor selecciona al menos un libro'); return; } // Crear campo
-  oculto con los datos const detailsInput = document.createElement('input');
-  detailsInput.type = 'hidden'; detailsInput.name = 'Details';
-  detailsInput.value = JSON.stringify(selectedBooks); // Limpiar inputs
-  anteriores y agregar el nuevo const existingInput =
-  document.querySelector('input[name="Details"]'); if (existingInput)
-  existingInput.remove(); this.appendChild(detailsInput); this.submit(); }); });
+  document.addEventListener('DOMContentLoaded', function () { // Establecer fecha mínima como hoy 
+    const today = new Date().toISOString().split('T')[0];
+    document.querySelector('input[name="Devolution_date"]').min = today; //Manejar el envío del formulario
+    document.getElementById('loanForm').addEventListener('submit', function (e) {
+      e.preventDefault(); // Obtener libros seleccionados 
+      const selectedBooks = Array.from(document.querySelectorAll('.book-checkbox:checked')).map(checkbox => ({ book: checkbox.value, book_title: checkbox.dataset.title || 'Título nodisponible' })); // Validar selección 
+      if (selectedBooks.length === 0) {
+        alert('Por favor selecciona al menos un libro'); return;
+      } // Crear campo oculto con los datos
+      const detailsInput = document.createElement('input');
+      detailsInput.type = 'hidden'; detailsInput.name = 'details';
+      detailsInput.value = JSON.stringify(selectedBooks); // Limpiar inputs anteriores y agregar el nuevo 
+      const existingInput = document.querySelector('input[name="Details"]');
+      if (existingInput)
+        existingInput.remove(); this.appendChild(detailsInput); this.submit();
+    });
+  });
 </script>

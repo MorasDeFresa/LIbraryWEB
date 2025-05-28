@@ -10,40 +10,41 @@
             method="post"
             class="px-md-2"
           >
+            <!-- Usuario -->
             <div class="form-outline mb-4">
-              <select
-                class="form-select"
-                name="user"
-                id="user"
-              >
-                <option value="{{User._id}}">{{User.Username}}</option>
+              <select class="form-select" name="user" id="user">
                 {{#each Users}}
-                  <option value="{{_id}}">{{Username}}</option>
+                  <option value="{{_id}}" {{#if (eq _id ../loan.User)}}selected{{/if}}>
+                    {{Username}}
+                  </option>
                 {{/each}}
               </select>
               <label class="form-label">Usuario</label>
             </div>
 
+            <!-- Fecha de devolución -->
             <div class="form-outline mb-4">
               <input
                 type="date"
                 class="form-control form-control-lg"
                 name="devolution_date"
                 id="devolution_date"
-                value="{{loan.devolution_date}}"
+                value="{{formatDateForInput loan.Devolution_date}}"
               />
               <label class="form-label">Fecha de devolución</label>
             </div>
 
+            <!-- Estado -->
             <div class="form-outline mb-4">
               <select class="form-select" name="loan_state" id="loan_state">
-                <option value="activo">Activo</option>
-                <option value="finalizado">Finalizado</option>
-                <option value="vencido">Vencido</option>
+                <option value="activo" {{#if (eq loan.Loan_state "activo")}}selected{{/if}}>Activo</option>
+                <option value="finalizado" {{#if (eq loan.Loan_state "finalizado")}}selected{{/if}}>Finalizado</option>
+                <option value="vencido" {{#if (eq loan.Loan_state "vencido")}}selected{{/if}}>Vencido</option>
               </select>
               <label class="form-label">Estado del préstamo</label>
             </div>
 
+            <!-- Libros -->
             <div class="form-outline mb-4">
               <label class="form-label">Libros seleccionados</label>
               {{#each Books}}
@@ -54,6 +55,7 @@
                     name="details"
                     value='{"book":"{{_id}}","book_title":"{{Name}}"}'
                     id="book_{{_id}}"
+                    {{#if (isBookSelected _id ../loan.Details)}}checked{{/if}}
                   />
                   <label class="form-check-label" for="book_{{_id}}">
                     {{Name}}
@@ -62,14 +64,9 @@
               {{/each}}
             </div>
 
-            <p></p>
-            <button
-              type="submit"
-              class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto"
-            >
+            <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto">
               Editar y Guardar
             </button>
-
           </form>
         </div>
       </div>
