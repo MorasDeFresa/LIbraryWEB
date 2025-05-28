@@ -29,6 +29,11 @@ app.engine(
     layoutsDir: path.join(app.get("views"), "layouts"),
     partialsDir: path.join(app.get("views"), "partials"),
     extname: ".hbs",
+    helpers: {
+      eq: function (a, b, options) {
+        return a === b;
+      },
+    },
   })
 );
 app.set("view engine", ".hbs");
