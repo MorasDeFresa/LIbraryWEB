@@ -61,21 +61,48 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () { // Establecer fecha mínima como hoy 
+  document.addEventListener('DOMContentLoaded', function () {
+    // Establecer fecha mínima como hoy
     const today = new Date().toISOString().split('T')[0];
-    document.querySelector('input[name="Devolution_date"]').min = today; //Manejar el envío del formulario
+    document.querySelector('input[name="Devolution_date"]').min = today;
+
+    // Manejar el envío del formulario
     document.getElementById('loanForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // Obtener libros seleccionados 
-      const selectedBooks = Array.from(document.querySelectorAll('.book-checkbox:checked')).map(checkbox => ({ book: checkbox.value, book_title: checkbox.dataset.title || 'Título nodisponible' })); // Validar selección 
+      e.preventDefault();
+
+      // Obtener libros seleccionados
+      const selectedBooks = Array.from(document.querySelectorAll('.book-checkbox:checked'))
+        .map(checkbox => ({
+          book: checkbox.value,
+          book_title: checkbox.dataset.title || 'Título no disponible'
+        }));
+
+      // Validar selección
       if (selectedBooks.length === 0) {
-        alert('Por favor selecciona al menos un libro'); return;
-      } // Crear campo oculto con los datos
-      const detailsInput = document.createElement('input');
-      detailsInput.type = 'hidden'; detailsInput.name = 'details';
-      detailsInput.value = JSON.stringify(selectedBooks); // Limpiar inputs anteriores y agregar el nuevo 
-      const existingInput = document.querySelector('input[name="Details"]');
-      if (existingInput)
-        existingInput.remove(); this.appendChild(detailsInput); this.submit();
+        alert('Por favor selecciona al menos un libro');
+        return;
+      }
+
+      // Crear campo oculto con los datos
+      let detailsInput = document.querySelector('input[name="Details"]');
+      if (detailsInput) {
+        detailsInput.remove(); // Eliminar si ya existe para evitar duplicados
+      }
+
+      detailsInput = document.createElement('input');
+      detailsInput.type = 'hidden';
+      detailsInput.name = 'Details';
+      detailsInput.value = JSON.stringify(selectedBooks);
+
+      // Añadir al formulario
+      this.appendChild(detailsInput);
+
+      // Verificar que se añadió correctamente antes del submit
+      console.log("Input oculto añadido:", detailsInput);
+      console.log("Valor enviado:", detailsInput.value);
+
+      // Enviar formulario
+      this.submit();
     });
   });
 </script>

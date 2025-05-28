@@ -16,6 +16,7 @@ const CreateLoan = async (req, res) => {
     const errors = [];
     const { User, Devolution_date, Loan_state} = req.body;
     const details = JSON.parse(req.body.Details || "[]");
+    console.log("Detalles recibidos:", details); 
     const savedValues = { User, Devolution_date, Loan_state, details };
 
     const requiredFields = ["User", "Devolution_date"];
