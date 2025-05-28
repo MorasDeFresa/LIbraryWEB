@@ -11,6 +11,7 @@ const {
   DeleteLoan,
   GetAllLoans,
   GetSingleLoan,
+  SearchLoans,
 } = require("../controllers/loans");
 
 router.get("/loans/add", async (req, res) => {
@@ -61,6 +62,15 @@ router.get("/loans", isAuthenticatedWithLessOptions, async (req, res) => {
   }
 });
 
+router.get("/loans/search", isAuthenticatedWithLessOptions, async (req, res) => {
+  try {
+    await SearchLoans(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al buscar préstamos");
+  }
+});
+
 router.get("/loans/:id", isAuthenticatedWithLessOptions, async (req, res) => {
   try {
     GetSingleLoan(req, res);
@@ -68,4 +78,7 @@ router.get("/loans/:id", isAuthenticatedWithLessOptions, async (req, res) => {
     console.error(error);
   }
 });
+
+
+
 module.exports = router;

@@ -51,6 +51,70 @@ const CreateLoan = async (req, res) => {
   }
 };
 
+const SearchLoans = async (req, res) => {
+  try {
+    const searchTerm = req.query.searchTerm?.toString().trim();
+
+    if (!searchTerm || searchTerm.length < 2) {
+      return res.render("loans/search_loans", {
+        searchTerm: '',
+        loans: [],
+        message: 'Por favor, ingresa al menos 2 caracteres para buscar.'
+      });
+    }
+
+    // Buscar libros que coincidan con el nombre
+    const books = await BookDB.find({
+      Name: { $regex: searchTerm, $options: 'i' }
+    }).lean();
+
+    if (!books.length) {
+      return res.render("loans/search_loans", {
+        searchTerm,
+        loans: [],
+        message: 'No se encontraron libros con ese nombre.'
+      });
+    }
+
+    const bookIds = books.map(book => book._id);
+
+    // Buscar préstamos que contienen esos libros
+    const loans = await LoanDB.find({
+      'details.book': { $in: bookIds }
+    })
+      .populate('User')
+      .populate('details.book') // <- muy importante para mostrar el nombre
+      .lean();
+
+    // Agregar formato de fecha y extraer títulos de los libros
+    const formatDate = (date) => {
+      const d = new Date(date);
+      return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1)
+        .toString().padStart(2, '0')}/${d.getFullYear()}`;
+    };
+
+    loans.forEach(loan => {
+      loan.Loan_date_formatted = formatDate(loan.loan_date);
+      loan.Devolution_date_formatted = formatDate(loan.Devolution_date);
+      loan.details.forEach(detail => {
+        detail.book_title = detail.book?.Name || 'Libro no encontrado';
+      });
+    });
+
+    res.render("loans/search_loans", {
+      searchTerm,
+      loans,
+      message: loans.length ? null : 'No hay préstamos para ese libro.'
+    });
+
+  } catch (error) {
+    console.error("Error en SearchLoans:", error);
+    res.status(500).send("Error interno al buscar préstamos.");
+  }
+};
+
+//prueba
+
 
 const ListLoanById = async (req, res) => {
   const loan = await LoanDB.findById(req.params.id).lean();
@@ -84,6 +148,10 @@ const ListLoanById = async (req, res) => {
     devolution_date_formatted: formatDateForInput(loan.Devolution_date),
   });
 };
+
+
+
+
 
 const EditLoan = async (req, res) => {
   const { user, devolution_date, loan_state, details } = req.body;
@@ -145,4 +213,5 @@ module.exports = {
   DeleteLoan,
   GetAllLoans,
   GetSingleLoan,
+  SearchLoans,
 };
