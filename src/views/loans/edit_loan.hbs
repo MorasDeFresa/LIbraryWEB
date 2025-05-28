@@ -5,68 +5,52 @@
         <div class="card-body p-4 p-md-5">
           <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Editar préstamo</h3>
 
-          <form
-            action="/loans/edit/{{loan._id}}?_method=put"
-            method="post"
-            class="px-md-2"
-          >
-            <!-- Usuario -->
-            <div class="form-outline mb-4">
+          <form action="/loans/edit-loan/{{loan._id}}?_method=put" method="post" class="px-md-2">
+            {{!-- <div class="form-outline mb-4">
               <select class="form-select" name="user" id="user">
-                {{#each Users}}
-                  <option value="{{_id}}" {{#if (eq _id ../loan.User)}}selected{{/if}}>
-                    {{Username}}
-                  </option>
+                <option value="{{User._id}}">{{user.Username}}</option>
+                {{#each ser}}
+                <option value="{{_id}}">{{Username}}</option>
                 {{/each}}
               </select>
               <label class="form-label">Usuario</label>
+            </div> --}}
+
+            <div class="fs-5 mb-4">
+              <span><strong>Usuario:</strong> {{user.Username}}</span>
             </div>
 
             <!-- Fecha de devolución -->
             <div class="form-outline mb-4">
-              <input
-                type="date"
-                class="form-control form-control-lg"
-                name="devolution_date"
-                id="devolution_date"
-                value="{{formatDateForInput loan.Devolution_date}}"
-              />
+              <input type="date" name="devolution_date" id="devolution_date" class="form-control"
+                value="{{devolution_date_formatted}}" />
               <label class="form-label">Fecha de devolución</label>
             </div>
 
-            <!-- Estado -->
             <div class="form-outline mb-4">
               <select class="form-select" name="loan_state" id="loan_state">
-                <option value="activo" {{#if (eq loan.Loan_state "activo")}}selected{{/if}}>Activo</option>
-                <option value="finalizado" {{#if (eq loan.Loan_state "finalizado")}}selected{{/if}}>Finalizado</option>
-                <option value="vencido" {{#if (eq loan.Loan_state "vencido")}}selected{{/if}}>Vencido</option>
+                {{#each loanStates}}
+                <option value="{{name}}" {{selected}}>{{name}}</option>
+                {{/each}}
               </select>
-              <label class="form-label">Estado del préstamo</label>
+              <label class="form-label">Estado del prestamo</label>
             </div>
 
-            <!-- Libros -->
-            <div class="form-outline mb-4">
-              <label class="form-label">Libros seleccionados</label>
-              {{#each Books}}
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    name="details"
-                    value='{"book":"{{_id}}","book_title":"{{Name}}"}'
-                    id="book_{{_id}}"
-                    {{#if (isBookSelected _id ../loan.Details)}}checked{{/if}}
-                  />
-                  <label class="form-check-label" for="book_{{_id}}">
-                    {{Name}}
-                  </label>
-                </div>
-              {{/each}}
+            <div class="fs-5 mb-4">
+              <p class="card-text"><strong>Libros:</strong></p>
+              <ul style="list-style: none; padding-left: 0;">
+                {{#each loan.details}}
+                <li> - {{this.book_title}}</li>
+                {{else}}
+                <li>No hay libros registrados</li>
+                {{/each}}
+              </ul>
             </div>
 
             <button type="submit" class="btn btn-outline-light btn-floating m-1 btn-block btn-lg mx-auto">
               Editar y Guardar
             </button>
+
           </form>
         </div>
       </div>

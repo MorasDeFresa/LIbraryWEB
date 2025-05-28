@@ -14,9 +14,9 @@ const ListDependenciesLoans = async (res) => {
 const CreateLoan = async (req, res) => {
   try {
     const errors = [];
-    const { User, Devolution_date, Loan_state} = req.body;
+    const { User, Devolution_date, Loan_state } = req.body;
     const details = JSON.parse(req.body.Details || "[]");
-    console.log("Detalles recibidos:", details); 
+    console.log("Detalles recibidos:", details);
     const savedValues = { User, Devolution_date, Loan_state, details };
 
     const requiredFields = ["User", "Devolution_date"];
@@ -54,15 +54,21 @@ const CreateLoan = async (req, res) => {
 
 const ListLoanById = async (req, res) => {
   const loan = await LoanDB.findById(req.params.id).lean();
-  const User = await UserDB.findById(loan.user).lean();
 
-  const BookDetails = [];
-  for (const detail of loan.details) {
-    const book = await BookDB.findById(detail.book).lean();
-    if (book) {
-      BookDetails.push(book);
-    }
-  }
+  const selectedUserId = loan.User?.toString();
+  const selectedState = loan.loan_state;
+  const selectedBooks = loan.details?.map((d) => d.book.toString()) || [];
+
+  // Formatear fecha a input[type="date"]
+  const formatDateForInput = (date) => {
+    const d = new Date(date);
+    return d.toISOString().split("T")[0];
+  };
+
+  const loanStates = ["activo", "finalizado", "vencido"].map((state) => ({
+    name: state,
+    selected: state === loan.loan_state,
+  }));
 
   const Users = await UserDB.find().lean().sort({ Username: "ascending" });
   const Books = await BookDB.find().lean().sort({ Name: "ascending" });
@@ -71,19 +77,26 @@ const ListLoanById = async (req, res) => {
     loan,
     Users,
     Books,
-    User,
-    BookDetails,
+    selectedUserId,
+    selectedState,
+    loanStates,
+    selectedBooks,
+    devolution_date_formatted: formatDateForInput(loan.Devolution_date),
   });
 };
 
 const EditLoan = async (req, res) => {
-  const { User, Devolution_date, Loan_state, Details } = req.body;
+  const { user, devolution_date, loan_state, details } = req.body;
+
+  const parsedDetails = Array.isArray(details)
+    ? details.map((d) => JSON.parse(d))
+    : details ? [JSON.parse(details)] : [];
 
   await LoanDB.findByIdAndUpdate(req.params.id, {
-    User,
-    Devolution_date,
-    Loan_state,
-    Details,
+    User: user,
+    Devolution_date: devolution_date,
+    loan_state: loan_state,
+    Details: parsedDetails,
   }).lean();
 
   req.flash("success_msg", "Préstamo actualizado satisfactoriamente");
@@ -106,10 +119,10 @@ const GetAllLoans = async (req, res) => {
 };
 
 const GetSingleLoan = async (req, res) => {
-    const loan = await LoanDB.findById(req.params.id).lean().populate("User");
-    const user = res.locals.isAuthenticated;
-      // Formatear fechas directamente desde el controlador
-    const formatDate = (date) => {
+  const loan = await LoanDB.findById(req.params.id).lean().populate("User");
+  const user = res.locals.isAuthenticated;
+  // Formatear fechas directamente desde el controlador
+  const formatDate = (date) => {
     const d = new Date(date);
     const day = String(d.getDate()).padStart(2, "0");
     const month = String(d.getMonth() + 1).padStart(2, "0");
@@ -121,7 +134,7 @@ const GetSingleLoan = async (req, res) => {
   loan.Loan_date_formatted = formatDate(loan.loan_date);
   loan.Devolution_date_formatted = formatDate(loan.Devolution_date);
 
-    res.render("loans/view_single_loans",{loan,user});
+  res.render("loans/view_single_loans", { loan, user });
 }
 
 module.exports = {

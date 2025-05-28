@@ -31,7 +31,7 @@ router.post("/loans/add", isAuthenticated, async (req, res) => {
 
 router.get("/loans/edit/:id", isAuthenticated, async (req, res) => {
   try {
-    await EditLoan(req, res);
+    await ListLoanById(req, res);
   } catch (error) {
     console.error(error);
   }
