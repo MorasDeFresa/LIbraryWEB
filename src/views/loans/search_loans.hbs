@@ -1,0 +1,62 @@
+<h1>Buscar préstamos </h1>
+<h1 class="text-center my-4">Buscar préstamos</h1>
+
+<!-- Formulario de búsqueda -->
+<div class="container mb-4">
+  <form action="/loans/search" method="get" class="d-flex justify-content-center">
+    <input
+      type="text"
+      name="searchTerm"
+      class="form-control me-2 w-50"
+      placeholder="Escribe el nombre del libro"
+      value="{{searchTerm}}"
+    />
+    <button type="submit" class="btn btn-primary">Buscar</button>
+  </form>
+</div>
+
+<!-- Mensaje si no hay resultados -->
+{{#if message}}
+  <p class="text-danger text-center">{{message}}</p>
+{{/if}}
+
+<!-- Resultados de búsqueda -->
+{{#each loans}}
+  <div class="card text-white bg-dark mb-4">
+    <section>
+      <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+          <div class="text-center mt-2">
+            <div class="small mb-1">ID: {{this._id}}</div>
+            <h1 class="display-5 fw-bolder">Préstamo</h1>
+
+            <div class="fs-5 mb-4">
+              <span><strong>Usuario:</strong> {{this.User.Username}}</span>
+            </div>
+
+            <div class="fs-5 mb-4">
+              <span><strong>Fecha de préstamo:</strong> {{this.Loan_date_formatted}}</span>
+            </div>
+
+            <div class="fs-5 mb-4">
+              <span><strong>Fecha de devolución:</strong> {{this.Devolution_date_formatted}}</span>
+            </div>
+
+            <div class="fs-5 mb-4">
+              <span><strong>Estado:</strong> {{this.Loan_state}}</span>
+            </div>
+
+            <div class="fs-5 mb-4">
+              <p class="card-text"><strong>Libros:</strong></p>
+              <ul style="list-style: none; padding-left: 0;">
+                {{#each this.details}}
+                  <li> - {{this.book_title}}</li>
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{{/each}}
