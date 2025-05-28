@@ -113,6 +113,8 @@ const SearchLoans = async (req, res) => {
   }
 };
 
+//prueba
+
 
 const ListLoanById = async (req, res) => {
   const loan = await LoanDB.findById(req.params.id).lean();
