@@ -25,7 +25,7 @@ router.post("/loans/add", isAuthenticated, async (req, res) => {
   try {
     await CreateLoan(req, res);
   } catch (error) {
-    console.error(error);
+    console.error('buenos dias',error);
   }
 });
 
