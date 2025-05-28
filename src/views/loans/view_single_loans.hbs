@@ -4,7 +4,7 @@
       <div class="row gx-4 gx-lg-5 align-items-center">
 
         <!-- Datos del préstamo -->
-        <div class="col-md-6">
+        <div class="text-center mt-2">
           <div class="small mb-1">ID: {{loan._id}}</div>
           <h1 class="display-5 fw-bolder">Préstamo</h1>
 
@@ -20,15 +20,27 @@
             <span><strong>Fecha de devolución:</strong> {{loan.Devolution_date_formatted}}</span>
           </div>
 
-          <div class="fs-5 mb-5">
+          <div class="fs-5 mb-4">
             <span><strong>Estado:</strong> {{loan.loan_state}}</span>
           </div>
 
-          <form action="/loans">
-            <button class="btn btn-outline-light btn-floating m-1 btn-block btn-lg" type="submit">
-              Volver al menú principal
-            </button>
-          </form>
+          <div class="fs-5 mb-4">
+            <p class="card-text"><strong>Libros:</strong></p>
+            <ul style="list-style: none; padding-left: 0;">
+              {{#each loan.details}}
+              <li> - {{this.book_title}}</li>
+              {{else}}
+              <li>No hay libros registrados</li>
+              {{/each}}
+            </ul>
+          </div>
+          <div class="text-center mt-2">
+            <form action="/loans">
+              <button class="btn btn-outline-light btn-floating m-1 btn-block btn-lg" type="submit">
+                Ver todos los prestamos
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
