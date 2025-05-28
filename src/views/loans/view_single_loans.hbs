@@ -6,18 +6,20 @@
         <!-- Datos del préstamo -->
         <div class="text-center mt-2">
           <div class="small mb-1">ID: {{loan._id}}</div>
-          <h1 class="display-5 fw-bolder">Préstamo</h1>
+          <h1 class="display-5 fw-bolder">📚 Préstamo</h1>
 
           <div class="fs-5 mb-4">
             <span><strong>Usuario:</strong> {{loan.User.Username}}</span>
           </div>
 
           <div class="fs-5 mb-4">
-            <span><strong>Fecha de préstamo:</strong> {{loan.Loan_date_formatted}}</span>
+            <span><strong>Fecha de préstamo:</strong>
+              {{loan.Loan_date_formatted}}</span>
           </div>
 
           <div class="fs-5 mb-4">
-            <span><strong>Fecha de devolución:</strong> {{loan.Devolution_date_formatted}}</span>
+            <span><strong>Fecha de devolución:</strong>
+              {{loan.Devolution_date_formatted}}</span>
           </div>
 
           <div class="fs-5 mb-4">
@@ -28,15 +30,18 @@
             <p class="card-text"><strong>Libros:</strong></p>
             <ul style="list-style: none; padding-left: 0;">
               {{#each loan.details}}
-              <li> - {{this.book_title}}</li>
+                <li> 📖{{this.book_title}}</li>
               {{else}}
-              <li>No hay libros registrados</li>
+                <li>No hay libros registrados</li>
               {{/each}}
             </ul>
           </div>
           <div class="text-center mt-2">
             <form action="/loans">
-              <button class="btn btn-outline-light btn-floating m-1 btn-block btn-lg" type="submit">
+              <button
+                class="btn btn-outline-light btn-floating m-1 btn-block btn-lg"
+                type="submit"
+              >
                 Ver todos los prestamos
               </button>
             </form>

@@ -1,47 +1,41 @@
-<div class="row d-flex justify-content-center align-items-center h-100 mb-4">
+<div class="container mt-4">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
     {{#each book}}
-    <div class="col-lg-2 col-xl-2">
-        <div class="card text-white bg-dark mb-4">
-            <p></p>
-            <img src="{{Cover}}" class="card-img-top mx-auto" alt="..." style="width: 150px; height: 150px">
-            <div class="card-body">
-                <div class="text-center">
-                    <h5 class="card-title">{{Name}}</h5>
-                    <p></p>
-                    <b class="card-text">{{Author}}</b>
-                    <p></p>
-                    <a href="/books/{{_id}}"
-                        class="btn btn-outline-light btn-floating m-1 btn-block btn-lg">Explorar</a>
-                </div>
-                <p></p>
-                <div class="row d-flex justify-content-center align-items-center">
+    <div class="col">
+      <div class="card h-100 text-white bg-dark">
+        <img src="{{Cover}}" class="card-img-top mx-auto mt-3" alt="Portada del libro" style="width: 150px; height: 150px; object-fit: cover;">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{Name}}</h5>
+          <p class="card-text"><strong>Autor:</strong> {{Author}}</p>
+          <a href="/books/{{_id}}" class="btn btn-outline-light w-100 mb-2 btn-no-lift">
+            📚 Explorar
+          </a>
 
-                    {{#if ../user}}
-                    <div class="text-center">
-                        <a href="/books/edit/{{_id}}" class="btn" style="--bs-btn-color: rgba(193,242,255,255);"><i
-                                class="fas fa-edit fa-lg"></i> Editar</a>
-                        <form action="/books/delete/{{_id}}?_method=delete" method="post">
-                            <input type="hidden" name="_method" value="delete">
-                            <button class="btn" type="submit" style="--bs-btn-color: rgba(193,242,255,255);"><i
-                                    class="fa-solid fa-xmark fa-lg"></i> Eliminar</button>
-                        </form>
-                    </div>
-                    {{else}}
-                    {{/if}}
-                </div>
-            </div>
+          {{#if ../user}}
+          <div class="d-flex justify-content-between">
+            <a href="/books/edit/{{_id}}" class="btn btn-sm btn-info btn-no-lift">
+              <i class="fas fa-edit"></i> Editar
+            </a>
+            <form action="/books/delete/{{_id}}?_method=delete" method="post" class="d-inline">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="btn btn-sm btn-danger btn-no-lift">
+                <i class="fa-solid fa-xmark"></i> Eliminar
+              </button>
+            </form>
+          </div>
+          {{/if}}
         </div>
+      </div>
     </div>
     {{else}}
     {{#if user}}
-    <h3>
-        <center>No se encuentran libros registrados</center>
-    </h3>
-    <div class="d-grid gap-2 col-6 mx-auto">
-        <a href="/books/add" class="btn btn-danger btn-block">Registra un nuevo libro</a>
-        <p></p>
+    <div class="col-12">
+      <h3 class="text-center">No se encuentran libros registrados</h3>
+      <div class="d-grid gap-2 col-6 mx-auto mt-3">
+        <a href="/books/add" class="btn btn-danger">Registra un nuevo libro</a>
+      </div>
     </div>
     {{/if}}
-
     {{/each}}
+  </div>
 </div>
