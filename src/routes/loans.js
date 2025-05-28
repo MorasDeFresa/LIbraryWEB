@@ -13,7 +13,7 @@ const {
   GetSingleLoan,
 } = require("../controllers/loans");
 
-router.get("/loans/add", isAuthenticated, async (req, res) => {
+router.get("/loans/add", async (req, res) => {
   try {
     await ListDependenciesLoans(res);
   } catch (error) {
@@ -21,7 +21,7 @@ router.get("/loans/add", isAuthenticated, async (req, res) => {
   }
 });
 
-router.post("/loans/add", isAuthenticated, async (req, res) => {
+router.post("/loans/add", async (req, res) => {
   try {
     await CreateLoan(req, res);
   } catch (error) {
